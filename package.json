@@ -1,13 +1,16 @@
 {
   "name": "babelx",
   "version": "1.0.0",
-  "description": "A usable babel command-line tool",
+  "description": "A better babel command-line utility",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kelvin W Sherlock",
   "license": "ISC",
+  "bin": {
+    "babelx": "babelx.js"
+  },
   "dependencies": {
     "babel-core": "^6.6.4",
     "babel-plugin-check-es2015-constants": "^6.6.4",

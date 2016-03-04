@@ -91,6 +91,26 @@ function transformFile(file, options) {
 	}
 }
 
+function input_promise() {
+
+	return new Promise(function(resolve, reject){
+		var rv = '';
+		var stdin = process.stdin;
+		stdin.setEncoding("utf8");
+
+		stdin.on("readable", function () {
+			var chunk;
+			while (chunk = stdin.read()) {
+				rv += chunk;
+			}
+		});
+
+		stdin.on("end", function () {
+			resolve(rv);
+		});
+	})
+}
+
 var plugins = new Map();
 
 
@@ -179,15 +199,8 @@ if (argv._.length) {
 }
 
 // read from stdin....
-var code = '';
-process.stdin.setEncoding("utf8");
 
-process.stdin.on("readable", function () {
-	var chunk = process.stdin.read();
-	if (chunk !== null) code += chunk;
-});
-
-process.stdin.on("end", function () {
+input_promise().then(function(code){
 
 	options.filename="<stdin>";
 	var result = transform(code, options);
@@ -202,6 +215,6 @@ process.stdin.on("end", function () {
 		process.stdout.write("\n");
 	}
 	process.exit(0);
-});
 
+});
 
