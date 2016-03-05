@@ -1,69 +1,15 @@
+#!/usr/bin/env node
+
 /*
  * babelx --plugins=...,... --preset=...,... --no=....
  *
  *
  */
 
-var parseArgs = require('minimist');
 var babel = require('babel-core');
 var fs = require("fs");
-
-var presets = new Map();
-
-presets.set('react', [
-	'syntax-flow',
-	'syntax-jsx',
-	'transform-flow-strip-types',
-	'transform-react-jsx',
-	'transform-react-display-name',
-]);
-
-presets.set('es2015', [
-	'check-es2015-constants',
-	'transform-es2015-arrow-functions',
-	'transform-es2015-block-scoped-functions',
-	'transform-es2015-block-scoping',
-	'transform-es2015-classes',
-	'transform-es2015-computed-properties',
-	'transform-es2015-destructuring',
-	'transform-es2015-for-of',
-	'transform-es2015-function-name',
-	'transform-es2015-literals',
-	'transform-es2015-modules-commonjs', // no.
-	'transform-es2015-object-super',
-	'transform-es2015-parameters',
-	'transform-es2015-shorthand-properties',
-	'transform-es2015-spread',
-	'transform-es2015-sticky-regex',
-	'transform-es2015-template-literals',
-	'transform-es2015-typeof-symbol',
-	'transform-es2015-unicode-regex',
-	'transform-regenerator',
-]);
-
-// as above but add helpers, remove common-js
-presets.set('es2015-rollup', [
-	'check-es2015-constants',
-	'transform-es2015-arrow-functions',
-	'transform-es2015-block-scoped-functions',
-	'transform-es2015-block-scoping',
-	'transform-es2015-classes',
-	'transform-es2015-computed-properties',
-	'transform-es2015-destructuring',
-	'transform-es2015-for-of',
-	'transform-es2015-function-name',
-	'transform-es2015-literals',
-	'transform-es2015-object-super',
-	'transform-es2015-parameters',
-	'transform-es2015-shorthand-properties',
-	'transform-es2015-spread',
-	'transform-es2015-sticky-regex',
-	'transform-es2015-template-literals',
-	'transform-es2015-typeof-symbol',
-	'transform-es2015-unicode-regex',
-	'transform-regenerator',
-	'external-helpers'
-]);
+var getopt = require('./getopt');
+var data = require('./data');
 
 function _(x) {
 	return Array.isArray(x) ? x : [x];
@@ -91,7 +37,7 @@ function transformFile(file, options) {
 	}
 }
 
-function input_promise() {
+function read_stdin() {
 
 	return new Promise(function(resolve, reject){
 		var rv = '';
@@ -111,28 +57,123 @@ function input_promise() {
 	})
 }
 
-var plugins = new Map();
+
+function help(exitcode) {
+	var x = [];
+
+	console.log("babelx [options] infile...");
+	console.log("");
+	console.log("options:");
+	console.log("    -o outfile");
+	console.log("    -h / --help");
+	console.log("    -v / --verbose");
+	console.log("    --preset");
+	console.log("    --plugin");
+	console.log("    --no-plugin");
+
+	console.log("");
+	console.log("plugins:");
+
+	data.presets.forEach(function(v,k) { x.push(k); });
+	x.sort();
+	x.forEach(function(k){console.log(`    --${k}`)});
+
+	console.log("");
+	console.log("presets:");
+
+	data.plugins.forEach(function(k) { x.push(k); });
+	x.sort();
+	x.forEach(function(k){console.log(`    --${k}`)});
 
 
-var argv = parseArgs(process.argv.slice(2), {
-	alias: { preset: 'presets', plugin: 'plugins'},
-	string: [ 'preset', 'presets', 'plugin', 'plugins', 'o']
+	process.exit(exitcode);
+}
+
+var plugins = new Set();
+var verbose = false;
+var outfile = null;
+
+var argv = getopt(process.argv.slice(2), 
+	{ shortargs: 'o' },
+	function(key, value) {
+
+		switch(key) {
+			case '-h':
+			case '--help':
+				help(0);
+
+			case '-v':
+			case '--verbose':
+				verbose = true;
+				break;
+
+			case '-o':
+				if (!value) {
+					console.log('-o requires an argument.');
+					help(1);
+				}
+				if (value == '-') value = null;
+				outfile = value;
+				break;
+
+			default:
+				if (key.substr(0,2) == '--') {
+					var x = key.substr(2);
+
+					// --preset ?
+					if (data.presets.has(x)) {
+						data.presets.get(x).forEach(function(k){
+							plugins.add(k);
+						});
+						break;
+					}
+
+					// --plugin?
+					if (data.plugins.has(x)) {
+						plugins.add(x);
+						break;
+					}
+					x = 'transform-' + x;
+					if (data.plugins.has(x)) {
+						plugins.add(x);
+						break;
+					}
+				}
+				// --no-plugin
+				if (key.substr(0,5) == '--no-') {
+					x = key.substr(5);
+					if (data.plugins.has(x)) {
+						plugins.delete(x);
+						break;
+					}
+					x = 'transform-' + x;
+					if (data.plugins.has(x)) {
+						plugins.delete(x);
+						break;
+					}
+				}
+
+				console.log(`unsupported option: ${key}.`);
+				help(1);
+				break;
+		}
+
+
 });
 
-var verbose = !!argv.v;
-var outfile = argv.o; if (outfile == '-') outfile = null;
 var options = {};
 
+/*
 argv.presets && _(argv.presets).forEach(function(arg){
 	arg = arg.split(',');
 	arg.forEach(function(arg){
 		if (arg == '') return;
-		if (!presets.has(arg)) {
-			console.log('Invalid preset: ' + arg);
+		if (!data.presets.has(arg)) {
+			console.log(`Invalid preset: ${arg}`);
 			return;
 		}
-		presets.get(arg).forEach(function(k){
-			plugins.set(k, true);
+		data.presets.get(arg).forEach(function(k){
+			plugins.add(k);
 		});
 	});
 });
@@ -141,21 +182,15 @@ argv.plugins && _(argv.plugins).forEach(function(arg){
 	arg = arg.split(',');
 	arg.forEach(function(arg){
 		if (arg == '') return;
-		plugins.set(arg,true);
+		plugins.add(arg);
 	});
 });
-
-argv.no && _(argv.no).forEach(function(arg){
-	arg = arg.split(',');
-	arg.forEach(function(arg){
-		plugins.delete(arg);
-	});
-});
+*/
 
 options.plugins = [];
 
 plugins.forEach(function(value,key,map){
-	if (verbose) console.log('requiring ' + key);
+	if (verbose) console.log(`requiring ${key}`);
 	var x;
 	try {
 		x = 'babel-plugin-' + key;
@@ -171,18 +206,25 @@ plugins.forEach(function(value,key,map){
 		return;
 	} catch (exception) {}
 
-	console.warn('Unable to find plugin ' + key);
+	console.warn(`Unable to find plugin ${key}`);
 });
 
 var fd = -1;
 if (outfile) {
-	fd = fs.openSync(outfile, 'w', 0666);
+	try {
+		fd = fs.openSync(outfile, 'w', 0666);
+	} catch (e) {
+		//console.log(`Error opening ${outfile}`);
+		console.log(e.message);
+		process.exit(1);
+	}
 }
 
-if (argv._.length) {
-	argv._.forEach(function(infile){
+if (argv.length) {
+	argv.forEach(function(infile){
 		options.filename = infile;
 		//var code = fs.readFileSync(infile);
+		if (verbose) console.log(`transforming  ${infile}`);
 		var result = transformFile(infile, options);
 
 		if (outfile) {
@@ -194,13 +236,13 @@ if (argv._.length) {
 			process.stdout.write("\n");
 		}
 	});
-	fs.closeSync(fd);
+	if (fd != -1) fs.closeSync(fd);
 	process.exit(0);
 }
 
 // read from stdin....
 
-input_promise().then(function(code){
+read_stdin().then(function(code){
 
 	options.filename="<stdin>";
 	var result = transform(code, options);

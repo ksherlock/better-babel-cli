@@ -93,6 +93,5 @@
     "babel-plugin-transform-strict-mode": "^6.6.4",
     "babel-plugin-transform-undefined-to-void": "^6.5.0",
     "babel-plugin-undeclared-variables-check": "^6.5.0",
-    "minimist": "^1.2.0"
   }
 }
