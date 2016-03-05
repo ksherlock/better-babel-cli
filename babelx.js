@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /*
- * babelx --plugins=...,... --preset=...,... --no=....
- *
+ * babelx [options] files...
+ * like babel cli, but you can actually use it.
  *
  */
 
