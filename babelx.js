@@ -161,7 +161,7 @@ var argv = getopt(process.argv.slice(2),
 
 });
 
-var options = {};
+var options = {babelrc: false};
 
 /*
 argv.presets && _(argv.presets).forEach(function(arg){
@@ -191,18 +191,18 @@ options.plugins = [];
 
 plugins.forEach(function(value,key,map){
 	if (verbose) console.log(`requiring ${key}`);
-	var x;
+	var x, y;
 	try {
 		x = 'babel-plugin-' + key;
-		require(x);
-		options.plugins.push(x);
+		y = require(x);
+		options.plugins.push(y);
 		return;
 	} catch (exception) {}
 
 	try {
 		x = 'babel-plugin-transform-' + key;
-		require(x);
-		options.plugins.push(x);
+		y = require(x);
+		options.plugins.push(y);
 		return;
 	} catch (exception) {}
 
