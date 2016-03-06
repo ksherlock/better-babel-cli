@@ -93,27 +93,44 @@ var plugins = new Set();
 var verbose = false;
 var outfile = null;
 
-var argv = getopt(process.argv.slice(2), 
-	{ shortargs: 'o' },
-	function(key, value) {
+var go = { '-o': String, '-h': true, '--help': true, '-v': true, '--verbose': Boolean };
+
+// add pre-sets
+data.presets.forEach(function(v, k){ go['--' + k] = true; });
+
+// add plug-ins.
+data.plugins.forEach(function(k){
+	var m;
+	go['--' + k] = Boolean;
+	// --transform-this-that == --this-that
+	if (m = k.match(/^transform-(.+)$/)) {
+		go['--' + m[1]] = Boolean;
+	}
+});
+
+
+var argv = getopt(process.argv.slice(2), go,
+	function(key, optarg, error) {
 
 		switch(key) {
+			case ':':
+			case '?':
+				console.log(error.message);
+				process.exit(1);
+				break;
+
 			case '-h':
 			case '--help':
 				help(0);
 
 			case '-v':
 			case '--verbose':
-				verbose = true;
+				verbose = optarg;
 				break;
 
 			case '-o':
-				if (!value) {
-					console.log('-o requires an argument.');
-					help(1);
-				}
-				if (value == '-') value = null;
-				outfile = value;
+				if (optarg === '-') optarg = null;
+				outfile = optarg;
 				break;
 
 			default:
@@ -130,62 +147,23 @@ var argv = getopt(process.argv.slice(2),
 
 					// --plugin?
 					if (data.plugins.has(x)) {
-						plugins.add(x);
+						optarg ? plugins.add(x) : plugins.delete(x);
 						break;
 					}
 					x = 'transform-' + x;
 					if (data.plugins.has(x)) {
-						plugins.add(x);
-						break;
-					}
-				}
-				// --no-plugin
-				if (key.substr(0,5) == '--no-') {
-					x = key.substr(5);
-					if (data.plugins.has(x)) {
-						plugins.delete(x);
-						break;
-					}
-					x = 'transform-' + x;
-					if (data.plugins.has(x)) {
-						plugins.delete(x);
+						optarg ? plugins.add(x) : plugins.delete(x);
 						break;
 					}
 				}
 
-				console.log(`unsupported option: ${key}.`);
-				help(1);
+				console.log(error ? error.message : `Unknown plugin: ${key}`);
+				process.exit(1);
 				break;
 		}
-
-
 });
 
 var options = {babelrc: false};
-
-/*
-argv.presets && _(argv.presets).forEach(function(arg){
-	arg = arg.split(',');
-	arg.forEach(function(arg){
-		if (arg == '') return;
-		if (!data.presets.has(arg)) {
-			console.log(`Invalid preset: ${arg}`);
-			return;
-		}
-		data.presets.get(arg).forEach(function(k){
-			plugins.add(k);
-		});
-	});
-});
-
-argv.plugins && _(argv.plugins).forEach(function(arg){
-	arg = arg.split(',');
-	arg.forEach(function(arg){
-		if (arg == '') return;
-		plugins.add(arg);
-	});
-});
-*/
 
 options.plugins = [];
 
@@ -199,6 +177,7 @@ plugins.forEach(function(value,key,map){
 		return;
 	} catch (exception) {}
 
+	// should all be handled above these days...
 	try {
 		x = 'babel-plugin-transform-' + key;
 		y = require(x);
@@ -212,7 +191,7 @@ plugins.forEach(function(value,key,map){
 var fd = -1;
 if (outfile) {
 	try {
-		fd = fs.openSync(outfile, 'w', 0666);
+		fd = fs.openSync(outfile, 'w', /*0666*/ 0x1b6);
 	} catch (e) {
 		//console.log(`Error opening ${outfile}`);
 		console.log(e.message);
