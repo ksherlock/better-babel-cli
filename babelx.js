@@ -67,6 +67,8 @@ function help(exitcode) {
 	console.log("    -o outfile");
 	console.log("    -h / --help");
 	console.log("    -v / --verbose");
+	console.log("    --[no-]comments");
+	console.log("    --[no-]compact");
 	console.log("    --preset");
 	console.log("    --[no-]plugin");
 
@@ -94,7 +96,17 @@ var plugins = new Set();
 var verbose = false;
 var outfile = null;
 
-var go = { '-o': String, '-h': true, '--help': true, '-v': true, '--verbose': Boolean };
+var options = {
+	babelrc: false,
+	plugins: []
+};
+
+var go = { '-o': String, 
+	'-h': true, '--help': true, 
+	'-v': true, '--verbose': Boolean, 
+	'--comments': Boolean,
+	'--compact': Boolean,
+};
 
 // add pre-sets
 data.presets.forEach(function(v, k){ go['--' + k] = true; });
@@ -127,6 +139,14 @@ var argv = getopt(process.argv.slice(2), go,
 			case '-v':
 			case '--verbose':
 				verbose = optarg;
+				break;
+
+			case '--comments':
+				options.comments = optarg;
+				break;
+
+			case '--compact':
+				options.compact = optarg;
 				break;
 
 			case '-o':
@@ -164,9 +184,6 @@ var argv = getopt(process.argv.slice(2), go,
 		}
 });
 
-var options = {babelrc: false};
-
-options.plugins = [];
 
 plugins.forEach(function(value,key,map){
 	if (verbose) console.log(`requiring ${key}`);
