@@ -59,7 +59,7 @@ function read_stdin() {
 
 
 function help(exitcode) {
-	var x = [];
+	var x;
 
 	console.log("babelx [options] infile...");
 	console.log("");
@@ -68,19 +68,20 @@ function help(exitcode) {
 	console.log("    -h / --help");
 	console.log("    -v / --verbose");
 	console.log("    --preset");
-	console.log("    --plugin");
-	console.log("    --no-plugin");
+	console.log("    --[no-]plugin");
 
 	console.log("");
-	console.log("plugins:");
+	console.log("presets:");
 
+	x = [];
 	data.presets.forEach(function(v,k) { x.push(k); });
 	x.sort();
 	x.forEach(function(k){console.log(`    --${k}`)});
 
 	console.log("");
-	console.log("presets:");
+	console.log("plugins:");
 
+	x = [];
 	data.plugins.forEach(function(k) { x.push(k); });
 	x.sort();
 	x.forEach(function(k){console.log(`    --${k}`)});
