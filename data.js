@@ -1,3 +1,4 @@
+"use strict";
 
 exports.plugins = new Set([
 	'check-es2015-constants',

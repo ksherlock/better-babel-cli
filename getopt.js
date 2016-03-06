@@ -1,3 +1,4 @@
+"use strict";
 
 /*
  * Instead of trying to decide among the 100+ half-assed node getopt replacements,

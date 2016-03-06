@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+"use strict";
 /*
  * babelx [options] files...
  * like babel cli, but you can actually use it.
