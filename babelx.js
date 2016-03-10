@@ -67,6 +67,7 @@ function help(exitcode) {
 	console.log("    -o outfile");
 	console.log("    -h / --help");
 	console.log("    -v / --verbose");
+	console.log("    --[no-]babelrc");
 	console.log("    --[no-]comments");
 	console.log("    --[no-]compact");
 	console.log("    --preset");
@@ -96,7 +97,8 @@ var plugins = new Set();
 var verbose = false;
 var outfile = null;
 
-var options = {
+
+var babelrc = {
 	babelrc: false,
 	plugins: []
 };
@@ -104,6 +106,7 @@ var options = {
 var go = { '-o': String, 
 	'-h': true, '--help': true, 
 	'-v': true, '--verbose': Boolean, 
+	'--babelrc': Boolean,
 	'--comments': Boolean,
 	'--compact': Boolean,
 };
@@ -141,12 +144,16 @@ var argv = getopt(process.argv.slice(2), go,
 				verbose = optarg;
 				break;
 
+			case '--babelrc':
+				babelrc.babelrc = optarg;
+				break;
+
 			case '--comments':
-				options.comments = optarg;
+				babelrc.comments = optarg;
 				break;
 
 			case '--compact':
-				options.compact = optarg;
+				babelrc.compact = optarg;
 				break;
 
 			case '-o':
@@ -191,19 +198,12 @@ plugins.forEach(function(value,key,map){
 	try {
 		x = 'babel-plugin-' + key;
 		y = require(x);
-		options.plugins.push(y);
+		babelrc.plugins.push(y);
 		return;
 	} catch (exception) {}
 
-	// should all be handled above these days...
-	try {
-		x = 'babel-plugin-transform-' + key;
-		y = require(x);
-		options.plugins.push(y);
-		return;
-	} catch (exception) {}
+	}
 
-	console.warn(`Unable to find plugin ${key}`);
 });
 
 var fd = -1;
@@ -219,10 +219,9 @@ if (outfile) {
 
 if (argv.length) {
 	argv.forEach(function(infile){
-		options.filename = infile;
-		//var code = fs.readFileSync(infile);
-		if (verbose) console.log(`transforming  ${infile}`);
-		var result = transformFile(infile, options);
+		babelrc.filename = infile;
+		if (verbose) console.log(`transforming ${infile}`);
+		var result = transformFile(infile, babelrc);
 
 		if (outfile) {
 			fs.appendFileSync(fd, result.code);
@@ -239,10 +238,11 @@ if (argv.length) {
 
 // read from stdin....
 
+if (verbose) console.log(`transforming stdin`);
 read_stdin().then(function(code){
 
-	options.filename="<stdin>";
-	var result = transform(code, options);
+	babelrc.filename="<stdin>";
+	var result = transform(code, babelrc);
 
 	if (outfile) {
 		fs.appendFileSync(fd, result.code);
