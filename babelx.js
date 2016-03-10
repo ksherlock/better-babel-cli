@@ -16,23 +16,25 @@ function _(x) {
 }
 
 function transform(code, options) {
+	var ex;
 	try {
 		return babel.transform(code, options);
 	}
-	catch(e) {
-		console.log(e.message);
-		console.log(e.codeFrame);
+	catch(ex) {
+		console.log(ex.message);
+		console.log(ex.codeFrame);
 		process.exit(1);
 	}
 }
 
 function transformFile(file, options) {
+	var ex;
 	try {
 		return babel.transformFileSync(file, options);
 	}
-	catch(e) {
-		console.log(e.message);
-		console.log(e.codeFrame);
+	catch(ex) {
+		console.log(ex.message);
+		console.log(ex.codeFrame);
 		process.exit(1);
 	}
 }
@@ -96,6 +98,7 @@ function help(exitcode) {
 var plugins = new Set();
 var verbose = false;
 var outfile = null;
+var ex;
 
 
 var babelrc = {
@@ -200,7 +203,9 @@ plugins.forEach(function(value,key,map){
 		y = require(x);
 		babelrc.plugins.push(y);
 		return;
-	} catch (exception) {}
+	} catch(ex) {
+		console.warn(`Unable to load plugin ${key}`);
+		console.warn(ex.message);
 
 	}
 
@@ -210,9 +215,9 @@ var fd = -1;
 if (outfile) {
 	try {
 		fd = fs.openSync(outfile, 'w', /*0666*/ 0x1b6);
-	} catch (e) {
+	} catch(ex) {
 		//console.log(`Error opening ${outfile}`);
-		console.log(e.message);
+		console.log(ex.message);
 		process.exit(1);
 	}
 }
