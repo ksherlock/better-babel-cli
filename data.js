@@ -81,6 +81,8 @@ exports.plugins = new Set([
 	'transform-strict-mode',
 	'transform-undefined-to-void',
 	'undeclared-variables-check',
+	// 3rd party
+	'mjsx',
 ]);
 
 exports.presets = new Map([

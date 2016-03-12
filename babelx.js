@@ -201,6 +201,10 @@ plugins.forEach(function(value,key,map){
 	try {
 		x = 'babel-plugin-' + key;
 		y = require(x);
+		// .__esModule can get killed before it's normalized.
+		// possibly from making a deep copy of the object
+		// and not including the __esModule property.
+		y =  y.__esModule ? y.default: y;
 		babelrc.plugins.push(y);
 		return;
 	} catch(ex) {

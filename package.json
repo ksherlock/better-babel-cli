@@ -19,6 +19,7 @@
     "babel-core": "^6.6.4",
     "babel-plugin-check-es2015-constants": "^6.6.4",
     "babel-plugin-external-helpers": "^6.5.0",
+    "babel-plugin-mjsx": "^4.1.1",
     "babel-plugin-syntax-async-functions": "^6.5.0",
     "babel-plugin-syntax-async-generators": "^6.5.0",
     "babel-plugin-syntax-class-constructor-call": "^6.5.0",
