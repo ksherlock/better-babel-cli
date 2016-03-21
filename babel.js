@@ -1,7 +1,25 @@
 #!/usr/bin/env node
+
+/*
+ * Copyright (c) 2016 Kelvin W Sherlock <ksherlock@gmail.com>
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+
 "use strict";
 /*
- * babelx [options] files...
+ * babel [options] files...
  * like babel cli, but you can actually use it.
  *
  */
@@ -59,6 +77,10 @@ function read_stdin() {
 	})
 }
 
+function version() {
+	var pkg = require('./package.json');
+	console.log(`babel x version ${pkg.version}`);
+}
 
 function help(exitcode) {
 	var x;
@@ -69,6 +91,7 @@ function help(exitcode) {
 	console.log("    -o outfile");
 	console.log("    -h / --help");
 	console.log("    -v / --verbose");
+	console.log("    -V / --version");
 	console.log("    --[no-]babelrc");
 	console.log("    --[no-]comments");
 	console.log("    --[no-]compact");
@@ -109,6 +132,7 @@ var babelrc = {
 var go = { '-o': String, 
 	'-h': true, '--help': true, 
 	'-v': true, '--verbose': Boolean, 
+	'-V': true, '--version': true,
 	'--babelrc': Boolean,
 	'--comments': Boolean,
 	'--compact': Boolean,
@@ -141,6 +165,11 @@ var argv = getopt(process.argv.slice(2), go,
 			case '-h':
 			case '--help':
 				help(0);
+
+			case '-V':
+			case '--version':
+				version();
+				process.exit(0);
 
 			case '-v':
 			case '--verbose':
