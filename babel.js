@@ -26,6 +26,8 @@
 
 var babel = require('babel-core');
 var fs = require("fs");
+const EX = require('sysexits');
+
 var getopt_long = require('./getopt').getopt_long;
 var data = require('./data');
 
@@ -39,9 +41,11 @@ function transform(code, options) {
 		return babel.transform(code, options);
 	}
 	catch(ex) {
-		console.log(ex.message);
-		console.log(ex.codeFrame);
-		process.exit(1);
+		console.warn(ex.message);
+		if (ex.codeFrame)
+			console.warn(ex.codeFrame);
+
+		process.exit(EX.DATAERR);
 	}
 }
 
@@ -51,9 +55,14 @@ function transformFile(file, options) {
 		return babel.transformFileSync(file, options);
 	}
 	catch(ex) {
-		console.log(ex.message);
-		console.log(ex.codeFrame);
-		process.exit(1);
+		console.warn(ex.message);
+		if (ex.code === 'ENOENT')
+			process.exit(EX.NOINPUT);
+
+		if (ex.codeFrame)
+			console.warn(ex.codeFrame);
+
+		process.exit(EX.DATAERR);
 	}
 }
 
@@ -79,7 +88,7 @@ function read_stdin() {
 
 function version() {
 	var pkg = require('./package.json');
-	console.log(`babel x version ${pkg.version}`);
+	console.log(`better-babel-cli version ${pkg.version}`);
 }
 
 function help(exitcode) {
@@ -90,7 +99,7 @@ function help(exitcode) {
 	console.log("options:");
 	console.log("    -o outfile");
 	console.log("    -h / --help");
-	console.log("    -v / --verbose");
+	console.log("    -v / --[no-]verbose");
 	console.log("    -V / --version");
 	console.log("    --[no-]babelrc");
 	console.log("    --[no-]comments");
@@ -146,13 +155,14 @@ data.plugins.forEach(function(k){
 
 
 var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
-	function(key, optarg, error) {
+	function(key, optarg) {
 
 		switch(key) {
 			case ':':
 			case '?':
-				console.log(error.message);
-				process.exit(1);
+				// optarg is an Error object.
+				console.warn(optarg.message);
+				process.exit(EX.USAGE);
 				break;
 
 			case 'h':
@@ -162,7 +172,7 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 			case 'V':
 			case 'version':
 				version();
-				process.exit(0);
+				process.exit(EX.OK);
 
 			case 'v':
 				verbose = true;
@@ -210,15 +220,15 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 					break;
 				}
 
-				console.log(error ? error.message : `Unknown plugin: ${key}`);
-				process.exit(1);
+				console.warn(error ? error.message : `Unknown plugin/preset: ${key}`);
+				process.exit(EX.USAGE);
 				break;
 		}
 });
 
 
 plugins.forEach(function(value,key,map){
-	if (verbose) console.log(`requiring ${key}`);
+	if (verbose) console.warn(`requiring ${key}`);
 	var x, y;
 	try {
 		x = 'babel-plugin-' + key;
@@ -242,16 +252,15 @@ if (outfile) {
 	try {
 		fd = fs.openSync(outfile, 'w', /*0666*/ 0x1b6);
 	} catch(ex) {
-		//console.log(`Error opening ${outfile}`);
-		console.log(ex.message);
-		process.exit(1);
+		console.warn(ex.message);
+		process.exit(EX.CANTCREAT);
 	}
 }
 
 if (argv.length) {
 	argv.forEach(function(infile){
 		babelrc.filename = infile;
-		if (verbose) console.log(`transforming ${infile}`);
+		if (verbose) console.warn(`transforming ${infile}`);
 		var result = transformFile(infile, babelrc);
 
 		if (outfile) {
@@ -264,12 +273,12 @@ if (argv.length) {
 		}
 	});
 	if (fd != -1) fs.closeSync(fd);
-	process.exit(0);
+	process.exit(EX.OK);
 }
 
 // read from stdin....
 
-if (verbose) console.log(`transforming stdin`);
+if (verbose) console.warn(`transforming stdin`);
 read_stdin().then(function(code){
 
 	babelrc.filename="<stdin>";
@@ -284,7 +293,7 @@ read_stdin().then(function(code){
 		process.stdout.write(result.code);
 		process.stdout.write("\n");
 	}
-	process.exit(0);
+	process.exit(EX.OK);
 
 });
 

@@ -8,6 +8,7 @@
   },
   "author": "Kelvin W Sherlock",
   "license": "ISC",
+  "preferGlobal": true,
   "bin": {
     "babel": "babel.js"
   },
@@ -97,6 +98,7 @@
     "babel-plugin-transform-simplify-comparison-operators": "^6.5.0",
     "babel-plugin-transform-strict-mode": "^6.6.4",
     "babel-plugin-transform-undefined-to-void": "^6.5.0",
-    "babel-plugin-undeclared-variables-check": "^6.5.0"
+    "babel-plugin-undeclared-variables-check": "^6.5.0",
+    "sysexits": "^1.0.1"
   }
 }
