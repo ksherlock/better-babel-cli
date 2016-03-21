@@ -26,7 +26,7 @@
 
 var babel = require('babel-core');
 var fs = require("fs");
-var getopt = require('./getopt');
+var getopt_long = require('./getopt').getopt_long;
 var data = require('./data');
 
 function _(x) {
@@ -85,7 +85,7 @@ function version() {
 function help(exitcode) {
 	var x;
 
-	console.log("babelx [options] infile...");
+	console.log("babel [options] infile...");
 	console.log("");
 	console.log("options:");
 	console.log("    -o outfile");
@@ -129,30 +129,23 @@ var babelrc = {
 	plugins: []
 };
 
-var go = { '-o': String, 
-	'-h': true, '--help': true, 
-	'-v': true, '--verbose': Boolean, 
-	'-V': true, '--version': true,
-	'--babelrc': Boolean,
-	'--comments': Boolean,
-	'--compact': Boolean,
-};
+var go = [ "help", "verbose!", "version", "babelrc!", "comments!", "compact!"];
 
 // add pre-sets
-data.presets.forEach(function(v, k){ go['--' + k] = true; });
+data.presets.forEach(function(v, k){ go.push(k) });
 
 // add plug-ins.
 data.plugins.forEach(function(k){
 	var m;
-	go['--' + k] = Boolean;
+	go.push(k + '!')
 	// --transform-this-that == --this-that
 	if (m = k.match(/^transform-(.+)$/)) {
-		go['--' + m[1]] = Boolean;
+		go.push(m[1] + '!');
 	}
 });
 
 
-var argv = getopt(process.argv.slice(2), go,
+var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 	function(key, optarg, error) {
 
 		switch(key) {
@@ -162,59 +155,59 @@ var argv = getopt(process.argv.slice(2), go,
 				process.exit(1);
 				break;
 
-			case '-h':
-			case '--help':
+			case 'h':
+			case 'help':
 				help(0);
 
-			case '-V':
-			case '--version':
+			case 'V':
+			case 'version':
 				version();
 				process.exit(0);
 
-			case '-v':
-			case '--verbose':
+			case 'v':
+				verbose = true;
+				break;
+
+			case 'verbose':
 				verbose = optarg;
 				break;
 
-			case '--babelrc':
+			case 'babelrc':
 				babelrc.babelrc = optarg;
 				break;
 
-			case '--comments':
+			case 'comments':
 				babelrc.comments = optarg;
 				break;
 
-			case '--compact':
+			case 'compact':
 				babelrc.compact = optarg;
 				break;
 
-			case '-o':
+			case 'o':
 				if (optarg === '-') optarg = null;
 				outfile = optarg;
 				break;
 
 			default:
-				if (key.substr(0,2) == '--') {
-					var x = key.substr(2);
+				// --preset ?
+				var x = key;
+				if (data.presets.has(x)) {
+					data.presets.get(x).forEach(function(k){
+						plugins.add(k);
+					});
+					break;
+				}
 
-					// --preset ?
-					if (data.presets.has(x)) {
-						data.presets.get(x).forEach(function(k){
-							plugins.add(k);
-						});
-						break;
-					}
-
-					// --plugin?
-					if (data.plugins.has(x)) {
-						optarg ? plugins.add(x) : plugins.delete(x);
-						break;
-					}
-					x = 'transform-' + x;
-					if (data.plugins.has(x)) {
-						optarg ? plugins.add(x) : plugins.delete(x);
-						break;
-					}
+				// --plugin?
+				if (data.plugins.has(x)) {
+					optarg ? plugins.add(x) : plugins.delete(x);
+					break;
+				}
+				var x = 'transform-' + key;
+				if (data.plugins.has(x)) {
+					optarg ? plugins.add(x) : plugins.delete(x);
+					break;
 				}
 
 				console.log(error ? error.message : `Unknown plugin: ${key}`);
