@@ -17,7 +17,7 @@
     "url": "https://github.com/ksherlock/better-babel-cli.git"
   },
   "dependencies": {
-    "babel-core": "^6.6.4",
+    "babel-core": "^6.7.2",
     "babel-plugin-check-es2015-constants": "^6.6.4",
     "babel-plugin-external-helpers": "^6.5.0",
     "babel-plugin-mjsx": "^4.1.1",
