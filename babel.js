@@ -91,8 +91,27 @@ function version() {
 	console.log(`better-babel-cli version ${pkg.version}`);
 }
 
+function help_presets() {
+
+	console.log("presets:");
+
+	var x = [];
+	data.presets.forEach(function(v,k) { x.push(k); });
+	x.sort();
+	x.forEach(function(k){console.log(`    --${k}`)});
+}
+
+function help_plugins() {
+
+	console.log("plugins:");
+
+	var x = [];
+	data.plugins.forEach(function(k) { x.push(k); });
+	x.sort();
+	x.forEach(function(k){console.log(`    --${k}`)});
+}
+
 function help(exitcode) {
-	var x;
 
 	console.log("babel [options] infile...");
 	console.log("");
@@ -108,21 +127,10 @@ function help(exitcode) {
 	console.log("    --[no-]plugin");
 
 	console.log("");
-	console.log("presets:");
-
-	x = [];
-	data.presets.forEach(function(v,k) { x.push(k); });
-	x.sort();
-	x.forEach(function(k){console.log(`    --${k}`)});
+	help_presets();
 
 	console.log("");
-	console.log("plugins:");
-
-	x = [];
-	data.plugins.forEach(function(k) { x.push(k); });
-	x.sort();
-	x.forEach(function(k){console.log(`    --${k}`)});
-
+	help_plugins();
 
 	process.exit(exitcode);
 }
@@ -138,7 +146,8 @@ var babelrc = {
 	plugins: []
 };
 
-var go = [ "help", "verbose!", "version", "babelrc!", "comments!", "compact!"];
+var go = [ "help", "help-plugins", "help-presets", 
+	"verbose!", "version", "babelrc!", "comments!", "compact!"];
 
 // add pre-sets
 data.presets.forEach(function(v, k){ go.push(k) });
@@ -167,7 +176,14 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 
 			case 'h':
 			case 'help':
-				help(0);
+				help(EX.OK);
+			case 'help-plugins':
+				help_plugins();
+				process.exit(EX.OK);
+
+			case 'help-presets':
+				help_presets();
+				process.exit(EX.OK);
 
 			case 'V':
 			case 'version':
