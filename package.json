@@ -4,7 +4,7 @@
   "description": "A better babel command-line utility",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "/bin/sh test.sh"
   },
   "author": "Kelvin W Sherlock",
   "license": "ISC",
@@ -16,6 +16,9 @@
     "type": "git",
     "url": "https://github.com/ksherlock/better-babel-cli.git"
   },
+  "keywords": [
+    "babel"
+  ],
   "dependencies": {
     "babel-core": "^6.7.2",
     "babel-plugin-check-es2015-constants": "^6.6.4",
