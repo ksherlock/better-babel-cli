@@ -212,6 +212,7 @@ var getopt_common = function(argv, short_opts, long_opts, callback, config) {
 	var state = null;
 	var __ = false;
 
+	if (!argv) argv = process.argv.slice(2);
 	var rv = argv.filter(function(arg){
 
 		var m;
