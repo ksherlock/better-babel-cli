@@ -29,6 +29,7 @@ var fs = require("fs");
 const EX = require('sysexits');
 
 var getopt_long = require('./getopt').getopt_long;
+var getsubopt = require('./getsubopt');
 var data = require('./data');
 
 function _(x) {
@@ -135,11 +136,11 @@ function help(exitcode) {
 	process.exit(exitcode);
 }
 
-var plugins = new Set();
+var nono = new Map();
+var plugins = new Map();
 var verbose = false;
 var outfile = null;
 var ex;
-
 
 var babelrc = {
 	babelrc: false,
@@ -150,18 +151,29 @@ var go = [ "help", "help-plugins", "help-presets",
 	"verbose!", "version", "babelrc!", "comments!", "compact!"];
 
 // add pre-sets
-data.presets.forEach(function(v, k){ go.push(k) });
+data.presets.forEach(function(v, k){
+	go.push(k);
+});
+
 
 // add plug-ins.
 data.plugins.forEach(function(k){
 	var m;
-	go.push(k + '!')
+	go.push(`${k}:s`);
+	go.push(`no-${k}`);
+
+	nono.set(`no-${k}`, k);
+
+
 	// --transform-this-that == --this-that
 	if (m = k.match(/^transform-(.+)$/)) {
-		go.push(m[1] + '!');
+		var k2 = m[1];
+		go.push(`${k2}:s`);
+		go.push(`no-${k2}`);
+
+		nono.set(`no-${k2}`, k);
 	}
 });
-
 
 var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 	function(key, optarg) {
@@ -220,23 +232,37 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 				var x = key;
 				if (data.presets.has(x)) {
 					data.presets.get(x).forEach(function(k){
-						plugins.add(k);
+						if (Array.isArray(k)) {
+							plugins.set(k[0], k[1]);
+						} else {
+							plugins.set(k);
+						}
 					});
+					break;
+				}
+
+				// --no plugin?
+				if (nono.has(x)) {
+					plugins.delete(nono.get(x));
 					break;
 				}
 
 				// --plugin?
 				if (data.plugins.has(x)) {
-					optarg ? plugins.add(x) : plugins.delete(x);
-					break;
-				}
-				var x = 'transform-' + key;
-				if (data.plugins.has(x)) {
-					optarg ? plugins.add(x) : plugins.delete(x);
+					plugins.set(x, optarg ? getsubopt(optarg) : null);
 					break;
 				}
 
-				console.warn(error ? error.message : `Unknown plugin/preset: ${key}`);
+				x = 'transform-' + key;
+				if (data.plugins.has(x)) {
+					plugins.set(x, optarg ? getsubopt(optarg) : null);
+					break;
+				}
+
+
+
+
+				console.warn(`Unknown plugin/preset: ${key}`);
 				process.exit(EX.USAGE);
 				break;
 		}
@@ -245,20 +271,25 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 
 plugins.forEach(function(value,key,map){
 	if (verbose) console.warn(`requiring ${key}`);
-	var x, y;
+	var x, y, ex;
+
 	try {
-		x = 'babel-plugin-' + key;
+		x = `./babel-plugin/${key}.js`;
 		y = require(x);
-		// .__esModule can get killed before it's normalized.
-		// possibly from making a deep copy of the object
-		// and not including the __esModule property.
-		y =  y.__esModule ? y.default: y;
-		babelrc.plugins.push(y);
+		y =  y.__esModule ? y.default : y;
+		babelrc.plugins.push(value ? [y, value] : y);
+		return;
+	} catch(ex) {}
+
+	try {
+		x = `babel-plugin-${key}`;
+		y = require(x);
+		y =  y.__esModule ? y.default : y;
+		babelrc.plugins.push(value ? [y, value] : y);
 		return;
 	} catch(ex) {
 		console.warn(`Unable to load plugin ${key}`);
 		console.warn(ex.message);
-
 	}
 
 });
