@@ -81,8 +81,11 @@ exports.plugins = new Set([
 	'transform-strict-mode',
 	'transform-undefined-to-void',
 	'undeclared-variables-check',
+	'transform-es2015-constants',
 	// 3rd party
 	'mjsx',
+	'transform-symbol-member',
+	//'lodash', lodash v3 / v4 conflicts.
 ]);
 
 exports.presets = new Map([
@@ -92,6 +95,33 @@ exports.presets = new Map([
 	'transform-flow-strip-types',
 	'transform-react-jsx',
 	'transform-react-display-name',
+	]],
+
+	// https://github.com/facebook/react-native/tree/master/babel-preset
+	['react-native', [
+	'syntax-async-functions',
+	'syntax-class-properties',
+	'syntax-trailing-function-commas',
+	'transform-class-properties',
+	'transform-es2015-arrow-functions',
+	'transform-es2015-block-scoping',
+	'transform-es2015-classes',
+	'transform-es2015-computed-properties',
+	'transform-es2015-constants',
+	'transform-es2015-destructuring',
+	['transform-es2015-modules-commonjs', { strict: false, allowTopLevelThis: true }],
+	'transform-es2015-parameters',
+	'transform-es2015-shorthand-properties',
+	'transform-es2015-spread',
+	'transform-es2015-template-literals',
+	'transform-flow-strip-types',
+	'transform-object-assign',
+	'transform-object-rest-spread',
+	'transform-react-display-name',
+	'transform-react-jsx',
+	'transform-regenerator',
+	['transform-es2015-for-of', { loose: true }],
+	'transform-symbol-member', // part of --preset-react-native
 	]],
 
 	['es2015', [
@@ -105,7 +135,7 @@ exports.presets = new Map([
 	'transform-es2015-for-of',
 	'transform-es2015-function-name',
 	'transform-es2015-literals',
-	'transform-es2015-modules-commonjs', // no.
+	'transform-es2015-modules-commonjs',
 	'transform-es2015-object-super',
 	'transform-es2015-parameters',
 	'transform-es2015-shorthand-properties',
@@ -114,10 +144,10 @@ exports.presets = new Map([
 	'transform-es2015-template-literals',
 	'transform-es2015-typeof-symbol',
 	'transform-es2015-unicode-regex',
-	'transform-regenerator',
+	['transform-regenerator', { async: false, asyncGenerators: false }],
 	]],
 
-// as above but add helpers, remove common-js
+	// as above but add helpers, remove common-js
 	['es2015-rollup', [
 	'check-es2015-constants',
 	'transform-es2015-arrow-functions',
@@ -137,7 +167,7 @@ exports.presets = new Map([
 	'transform-es2015-template-literals',
 	'transform-es2015-typeof-symbol',
 	'transform-es2015-unicode-regex',
-	'transform-regenerator',
+	['transform-regenerator', { async: false, asyncGenerators: false }],
 	'external-helpers'
 	]],
 
