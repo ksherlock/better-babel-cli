@@ -213,3 +213,27 @@ exports.presets = new Map([
 	'transform-function-bind',
 	]],
 ]);
+
+function _(o) {
+	var x = Object.keys(o).map(function(k){
+		return [k, o[k]];
+	});
+
+	return new Map(x)
+}
+
+exports.config = new Map([
+	['transform-async-to-module-method', {module: String, method: String}],
+	['transform-es2015-arrow-functions', {spec: Boolean}],
+	['transform-es2015-classes', {loose: Boolean}],
+	['transform-es2015-computed-properties', {loose: Boolean}],
+	['transform-es2015-for-of', {loose: Boolean}],
+	['transform-es2015-modules-commonjs', {allowTopLevelThis: Boolean}],
+	['transform-es2015-modules-umd', {globals: Object}], // not currently supported...
+	['transform-es2015-spread', {loose: Boolean}],
+	['transform-es2015-template-literals', {loose: Boolean, spec: Boolean}],
+	['transform-react-jsx', {pragma: String}],
+	['transform-regenerator', {asyncGenerators: Boolean, generators: Boolean, async: Boolean}],
+	['transform-runtime', {regenerator: Boolean, polyfill: Boolean}],
+	['transform-strict-mode', {strict: Boolean}],
+]);
