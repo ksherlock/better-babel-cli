@@ -99,7 +99,7 @@ function help_presets() {
 	var x = [];
 	data.presets.forEach(function(v,k) { x.push(k); });
 	x.sort();
-	x.forEach(function(k){console.log(`    --${k}`)});
+	x.forEach(function(k){console.log(`    --${k}`); });
 }
 
 function help_plugins() {
@@ -109,7 +109,21 @@ function help_plugins() {
 	var x = [];
 	data.plugins.forEach(function(k) { x.push(k); });
 	x.sort();
-	x.forEach(function(k){console.log(`    --${k}`)});
+	x.forEach(function(k){console.log(`    --${k}`); });
+}
+
+function config_str(o) {
+	return Object.keys(o).map(function(k){
+		return `${k}=${o[k].name}`;
+	}).join(',');
+}
+function help_config() {
+
+	console.log("configuration:");
+
+	data.config.forEach(function(v, k) { 
+		console.log(`--${k} ${config_str(v)}`);
+	});
 }
 
 function help(exitcode) {
@@ -147,7 +161,7 @@ var babelrc = {
 	plugins: []
 };
 
-var go = [ "help", "help-plugins", "help-presets", 
+var go = [ "help", "help-plugins", "help-presets", "help-config",
 	"verbose!", "version", "babelrc!", "comments!", "compact!"];
 
 // add pre-sets
@@ -195,6 +209,10 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 
 			case 'help-presets':
 				help_presets();
+				process.exit(EX.OK);
+
+			case "help-config":
+				help_config();
 				process.exit(EX.OK);
 
 			case 'V':
@@ -260,8 +278,6 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 				}
 
 
-
-
 				console.warn(`Unknown plugin/preset: ${key}`);
 				process.exit(EX.USAGE);
 				break;
@@ -272,6 +288,11 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 plugins.forEach(function(value,key,map){
 	if (verbose) console.warn(`requiring ${key}`);
 	var x, y, ex;
+
+	// special case for transform-es2015-modules-umd
+	if (key === 'transform-es2015-modules-umd' && value) {
+		value = { globals: value };
+	}
 
 	try {
 		x = `./babel-plugin/${key}.js`;

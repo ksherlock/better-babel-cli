@@ -24,10 +24,10 @@ You can either run it on the command line or put it in your makefile.
 ### Makefile:
 
     out/%.js : src/%.jsx
-        babel --react --es2015 --object-rest-spread -o $@ $< 
+        babel --react --es2015 --object-rest-spread -o $@ -- $< 
 
     out/%.js : src/%.js
-        babel --es2015 -o $@ $< 
+        babel --es2015 -o $@ -- $< 
 
 
 ### Commandline:
@@ -41,4 +41,36 @@ use `--no-plugin` to disable a plugin (if it was part of a preset, for
 example.).  `--foo` and `--transform-foo` are equivalent to 
 `require(babel-plugin-transform-foo)`.
 
-run `babel --help` to see a list of presets and plugins.
+run `babel --help`, `babel --help-presets`, or `babel --help-plugins` to see
+a list of presets and plugins.
+
+
+### Configuration
+
+Some plugins allow configuration options.  Run `babel --help-config` for
+details.  These may be specified as optional sub-arguments on the command-line.
+
+For example:
+
+    babel --transform-es2015-template-literals loose=true,spec=false
+    babel --transform-es2015-template-literals loose,spec=false
+
+`loose` is equivalent to `loose=true`.
+
+`--transform-es2015-modules-umd` is a special case.  This `.babelrc`
+
+    {
+      "plugins": [
+        ["transform-es2015-modules-umd", {
+          "globals": {
+            "es6-promise": "Promise"
+          }
+        }]
+      ]
+    }
+
+is handled as:
+
+    babel --transform-es2015-modules-umd es6-promise=Promise,...
+
+
