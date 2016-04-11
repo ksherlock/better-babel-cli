@@ -243,6 +243,11 @@ var getopt_common = function(argv, short_opts, long_opts, callback, config) {
 			state = null;
 		}
 
+		if (arg === '--') {
+			__ = true;
+			return false;
+		}
+
 		if (arg.substr(0,2) == '--' && !FLAG_SHORTONLY) {
 			state = parse_long_opt(arg, long_opts, callback, config);
 			return false;
