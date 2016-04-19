@@ -10,7 +10,8 @@
   "license": "ISC",
   "preferGlobal": true,
   "bin": {
-    "babel": "babel.js"
+    "babel": "babel.js",
+    "babel-external-helpers": "babel-external-helpers.js"
   },
   "repository": {
     "type": "git",
