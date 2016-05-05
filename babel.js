@@ -150,6 +150,7 @@ function help(exitcode) {
 	console.log("    --[no-]babelrc");
 	console.log("    --[no-]comments");
 	console.log("    --[no-]compact");
+	console.log("     --loose");
 	console.log("    --preset");
 	console.log("    --[no-]plugin");
 
@@ -167,6 +168,7 @@ var plugins = new Map();
 var verbose = false;
 var outfile = null;
 var ex;
+var loose = false;
 
 var babelrc = {
 	babelrc: false,
@@ -174,7 +176,7 @@ var babelrc = {
 };
 
 var go = [ "help", "help-plugins", "help-presets", "help-config",
-	"verbose!", "version", "babelrc!", "comments!", "compact!"];
+	"verbose!", "version", "babelrc!", "comments!", "compact!", "loose!"];
 
 // add pre-sets
 data.presets.forEach(function(v, k){
@@ -252,6 +254,10 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 				babelrc.compact = optarg;
 				break;
 
+			case 'loose':
+				loose = optarg;
+				break;
+
 			case 'o':
 				if (optarg === '-') optarg = null;
 				outfile = optarg;
@@ -296,6 +302,20 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 		}
 });
 
+
+if (loose) {
+
+	plugins.forEach(function(value, key, map){
+
+		var x = data.config.get(key);
+		if (!x || x.loose !== Boolean) return;
+
+		if (value) value.loose = true;
+		else map.set(key, {loose: true});
+
+	});
+
+}
 
 plugins.forEach(function(value,key,map){
 	if (verbose) console.warn(`requiring ${key}`);
