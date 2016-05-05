@@ -25,7 +25,9 @@ var fs = require("fs");
 var babel = require('babel-core');
 const EX = require('sysexits');
 var getopt_long = require('./getopt').getopt_long;
-
+var bh = require('babel-helpers');
+var bt = require('babel-types');
+var bg = require("babel-generator");
 
 var opts = {
 	o: null,
@@ -33,8 +35,131 @@ var opts = {
 	t: 'global'
 };
 
-const formats = new Set(["export","global", "umd", "var"]);
+const formats = new Set(["export","global", "umd", "var", "runtime"]);
 
+
+
+/*
+ * returns true if directory created, false if directory previously existed
+ * throws on error.
+ */
+function xmkdir(path, mode) {
+	var ex, error;
+	try {
+		fs.mkdirSync(path, mode);
+		return true;
+
+	} catch(ex) {error = ex} ;
+
+	try {
+		var stats = fs.statSync(path);
+		if (stats.isDirectory()) return false;
+	} catch(ex) {}
+
+	throw error;
+}
+
+function iterate_functions(whitelist, callback) {
+
+	var list = bh.list;
+	list.forEach( function(fn){
+		if (whitelist && whitelist.indexOf(fn) < 0) return;
+
+		callback(fn, bh.get(fn));
+	});
+}
+
+
+/*
+ * As of 4/18/2016, buildExternalHelpers does not support export 
+ * (a pull request has been submitted)
+ *
+ */
+
+function buildExternalHelpers(list, type) {
+	var ex;
+	try {
+		return babel.buildExternalHelpers(list, type); 
+	} catch (ex) {
+		if (type === 'export') return buildExports(list);
+	}
+}
+
+
+
+
+function buildExports(whitelist) {
+
+	var body = [];
+	var exports = [];
+
+	iterate_functions(whitelist, function(fn, template){
+
+		var _key = bt.identifier("_" + fn);
+		var key = bt.identifier(fn);
+
+		body.push(
+			bt.variableDeclaration("var", [
+				bt.variableDeclarator(_key, template)
+			])
+		);
+
+		exports.push(bt.exportSpecifier(_key, key));
+	});
+
+	body.push(
+		bt.exportNamedDeclaration(
+			null,
+			exports,
+			null
+		)
+	);
+
+	var tree = bt.program(body);
+	var code = bg.default(tree).code;
+	return code;
+}
+
+function buildRuntime(path, whitelist) {
+	var ex;
+
+	path = path || '';
+	if (path) path += '/';
+
+	try {
+		path += "babel-runtime"
+		xmkdir(path);
+		path += "/helpers"
+		xmkdir(path);
+	} catch (ex) {
+		console.log(ex.message);
+		process.exit(EX.CANTCREAT);
+	}
+
+	var _default = bt.identifier("default");
+	iterate_functions(whitelist, function(fn, template){
+
+		var _key = bt.identifier("_" + fn);
+		var body = [];
+
+		body.push(
+			bt.variableDeclaration("var", [
+				bt.variableDeclarator(_key, template)
+			])
+		);
+
+		body.push(
+			bt.exportNamedDeclaration(
+				null,
+				[bt.exportSpecifier(_key, _default)],
+				null
+			)
+		);
+		var tree = bt.program(body);
+		var code = bg.default(tree).code;
+		fs.writeFileSync(`${path}/${fn}.js`, code + "\n");
+	});
+}
 
 
 function help(exitcode) {
@@ -50,46 +175,6 @@ function help(exitcode) {
 	process.exit(exitcode);
 }
 
-/*
- * As of 4/18/2016, buildExternalHelpers does not support export 
- * (a pull request has been submitted)
- *
- */
-
-function buildExternalHelpers(list, type) {
-	var ex;
-	try {
-		return babel.buildExternalHelpers(list, type); 
-	} catch (ex) {
-		if (type !== 'export') throw ex;
-	}
-
-	return var_to_export(babel.buildExternalHelpers(list, 'var'));
-}
-
-function var_to_export(code) {
-
-	var e = new Set();
-
-	var newCode = [];
-	code.split("\n").forEach(function(line){
-		var m;
-
-		if (line === "babelHelpers;" || line === "var babelHelpers = {};") 
-			return;
-		if (m = line.match(/^babelHelpers\.([A-Za-z]+) = (.*)$/)) {
-			newCode.push(`var _${m[1]} = ${m[2]}`);
-			e.add(m[1]);
-			return;
-		}
-		newCode.push(line);
-	});
-
-	e.forEach(function(k){
-		newCode.push(`export { _${k} as ${k} };`);
-	});
-	return newCode.join("\n");
-}
 
 var argv = getopt_long(null, "hl:t:o:", ["help","whitelist=s","output-type=s"], function(arg, optarg){
 
@@ -115,6 +200,11 @@ var argv = getopt_long(null, "hl:t:o:", ["help","whitelist=s","output-type=s"], 
 	}
 
 });
+
+if (opts.t === "runtime") {
+	buildRuntime(opts.o, opts.l);
+	process.exit(EX.OK);
+}
 
 var ex;
 var code;

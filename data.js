@@ -84,7 +84,7 @@ exports.plugins = new Set([
 	// 3rd party
 	'mjsx',
 	'transform-symbol-member',
-	//'lodash', lodash v3 / v4 conflicts.
+	//'lodash', //lodash v3 / v4 conflicts.
 ]);
 
 exports.presets = new Map([
