@@ -92,14 +92,26 @@ function version() {
 	console.log(`better-babel-cli version ${pkg.version}`);
 }
 
-function help_presets() {
+function help_presets(verbose) {
 
 	console.log("presets:");
 
 	var x = [];
 	data.presets.forEach(function(v,k) { x.push(k); });
 	x.sort();
-	x.forEach(function(k){console.log(`    --${k}`); });
+	x.forEach(function(k){
+		console.log(`    --${k}`);
+		if (verbose) {
+			var y = data.presets.get(k).map(function(k){
+				return Array.isArray(k) ? k[0] : k;
+			});
+			y.sort();
+			y.forEach(function(k){
+				console.log(`        ${k}`);
+			});
+			console.log("");
+		}
+	});
 }
 
 function help_plugins() {
@@ -208,7 +220,7 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 				process.exit(EX.OK);
 
 			case 'help-presets':
-				help_presets();
+				help_presets(true);
 				process.exit(EX.OK);
 
 			case "help-config":
@@ -318,7 +330,7 @@ plugins.forEach(function(value,key,map){
 var fd = -1;
 if (outfile) {
 	try {
-		fd = fs.openSync(outfile, 'w', /*0666*/ 0x1b6);
+		fd = fs.openSync(outfile, 'w', 0o666);
 	} catch(ex) {
 		console.warn(ex.message);
 		process.exit(EX.CANTCREAT);
