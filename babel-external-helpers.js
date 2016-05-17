@@ -169,20 +169,31 @@ function help(exitcode) {
 	console.log("Options:");
 	console.log("    -o [outfile]             Write output to file.");
 	console.log("    -h, --help               Display usage information.");
-	console.log("    -l, --whitelist [list    Whitelist of helpers to ONLY include.");
+	console.log("    -l, --whitelist [list]   Whitelist of helpers to ONLY include.");
 	console.log("    -t, --output-type [type] Type of output (export|global|umd|var).");
 
 	process.exit(exitcode);
 }
 
+function version() {
+	var pkg = require('./package.json');
+	console.log(`better-babel-external-helpers version ${pkg.version}`);
+}
 
-var argv = getopt_long(null, "hl:t:o:", ["help","whitelist=s","output-type=s"], function(arg, optarg){
+var argv = getopt_long(null, "hl:t:o:V", ["help","whitelist=s","output-type=s", "version"], function(arg, optarg){
 
 	switch(arg) {
 		case 'help':
 		case 'h':
 			help(EX.OK);
 			break;
+
+		case 'V':
+		case 'version':
+			version();
+			process.exit(EX.OK);
+			break;
+
 		case 'l':
 		case 'whitelist':
 			opts.l = optarg.split(',')

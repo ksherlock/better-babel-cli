@@ -94,7 +94,7 @@ function version() {
 
 function help_presets(verbose) {
 
-	console.log("presets:");
+	console.log("Presets:");
 
 	var x = [];
 	data.presets.forEach(function(v,k) { x.push(k); });
@@ -116,7 +116,7 @@ function help_presets(verbose) {
 
 function help_plugins() {
 
-	console.log("plugins:");
+	console.log("Plugins:");
 
 	var x = [];
 	data.plugins.forEach(function(k) { x.push(k); });
@@ -131,7 +131,7 @@ function config_str(o) {
 }
 function help_config() {
 
-	console.log("configuration:");
+	console.log("Configuration:");
 
 	data.config.forEach(function(v, k) { 
 		console.log(`--${k} ${config_str(v)}`);
@@ -142,24 +142,28 @@ function help(exitcode) {
 
 	console.log("babel [options] infile...");
 	console.log("");
-	console.log("options:");
-	console.log("    -o outfile");
-	console.log("    -h / --help");
-	console.log("    -v / --[no-]verbose");
-	console.log("    -V / --version");
-	console.log("    --[no-]babelrc");
-	console.log("    --[no-]comments");
-	console.log("    --[no-]compact");
-	console.log("     --loose");
-	console.log("    --preset");
-	console.log("    --[no-]plugin");
+	console.log("Options:");
+	console.log("    -o [outfile]             Write output to file.");
+	console.log("    -h, --help               Display usage information.");
+	console.log("    --help-presets           Display presets.");
+	console.log("    --help-plugins           Display plugins.");
+	console.log("    --help-config            Display plugin configuration.");
+	console.log("    -v, --[no-]verbose       Enable/Disable verbose mode.");
+	console.log("    -V, --version            Display version information.");
+	console.log("    --[no-]babelrc           Enable/Disable .babelrc.");
+	console.log("    --[no-]comments          Enable/Disable comments.");
+	console.log("    --[no-]compact           Enable/Disable compaction.");
+	console.log("    --loose                  Enable loose mode.");
+	console.log("    --preset [name]          Enable specified preset.");
+	console.log("    --[no-]plugin [plugin]   Enable/Disable specified plugin.");
 
+	/*
 	console.log("");
 	help_presets();
 
 	console.log("");
 	help_plugins();
-
+	*/
 	process.exit(exitcode);
 }
 
