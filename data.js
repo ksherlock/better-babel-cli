@@ -84,7 +84,7 @@ exports.plugins = new Set([
 	// 3rd party
 	'mjsx',
 	'transform-symbol-member',
-	//'lodash', //lodash v3 / v4 conflicts.
+	'lodash',
 ]);
 
 exports.presets = new Map([
@@ -235,4 +235,5 @@ exports.config = new Map([
 	['transform-regenerator', {asyncGenerators: Boolean, generators: Boolean, async: Boolean}],
 	['transform-runtime', {regenerator: Boolean, polyfill: Boolean}],
 	['transform-strict-mode', {strict: Boolean}],
+	['lodash', {id: String, cwd: String}],
 ]);
