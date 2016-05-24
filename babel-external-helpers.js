@@ -170,7 +170,7 @@ function help(exitcode) {
 	console.log("    -o [outfile]             Write output to file.");
 	console.log("    -h, --help               Display usage information.");
 	console.log("    -l, --whitelist [list]   Whitelist of helpers to ONLY include.");
-	console.log("    -t, --output-type [type] Type of output (export|global|umd|var).");
+	console.log("    -t, --output-type [type] Type of output (export|global|runtime|umd|var).");
 
 	process.exit(exitcode);
 }
