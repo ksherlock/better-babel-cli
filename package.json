@@ -26,6 +26,7 @@
     "babel-helpers": "^6.8.0",
     "babel-plugin-check-es2015-constants": "^6.8.0",
     "babel-plugin-external-helpers": "^6.8.0",
+    "babel-plugin-inferno": "^0.7.2",
     "babel-plugin-lodash": "^3.1.4",
     "babel-plugin-mjsx": "^4.1.1",
     "babel-plugin-syntax-async-functions": "^6.8.0",

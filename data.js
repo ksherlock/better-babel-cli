@@ -85,6 +85,7 @@ exports.plugins = new Set([
 	'mjsx',
 	'transform-symbol-member',
 	'lodash',
+	'inferno',
 ]);
 
 exports.presets = new Map([
