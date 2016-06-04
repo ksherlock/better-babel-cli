@@ -275,7 +275,7 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 						if (Array.isArray(k)) {
 							plugins.set(k[0], k[1]);
 						} else {
-							plugins.set(k);
+							plugins.set(k, {});
 						}
 					});
 					break;
@@ -289,13 +289,13 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 
 				// --plugin?
 				if (data.plugins.has(x)) {
-					plugins.set(x, optarg ? getsubopt(optarg) : null);
+					plugins.set(x, optarg ? getsubopt(optarg) : {});
 					break;
 				}
 
 				x = 'transform-' + key;
 				if (data.plugins.has(x)) {
-					plugins.set(x, optarg ? getsubopt(optarg) : null);
+					plugins.set(x, optarg ? getsubopt(optarg) : {});
 					break;
 				}
 
@@ -312,11 +312,7 @@ if (loose) {
 	plugins.forEach(function(value, key, map){
 
 		var x = data.config.get(key);
-		if (!x || x.loose !== Boolean) return;
-
-		if (value) value.loose = true;
-		else map.set(key, {loose: true});
-
+		if (x && x.loose === Boolean) value.loose = true;
 	});
 
 }
@@ -334,7 +330,7 @@ plugins.forEach(function(value,key,map){
 		x = `./babel-plugin/${key}.js`;
 		y = require(x);
 		y =  y.__esModule ? y.default : y;
-		babelrc.plugins.push(value ? [y, value] : y);
+		babelrc.plugins.push([y, value]);
 		return;
 	} catch(ex) {}
 
@@ -342,7 +338,7 @@ plugins.forEach(function(value,key,map){
 		x = `babel-plugin-${key}`;
 		y = require(x);
 		y =  y.__esModule ? y.default : y;
-		babelrc.plugins.push(value ? [y, value] : y);
+		babelrc.plugins.push([y, value]);
 		return;
 	} catch(ex) {
 		console.warn(`Unable to load plugin ${key}`);
