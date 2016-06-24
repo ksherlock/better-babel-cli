@@ -170,7 +170,11 @@ exports.presets = new Map([
 	'transform-es2015-block-scoping',
 	'transform-es2015-typeof-symbol',
 	['transform-regenerator', { async: false, asyncGenerators: false }],
-	'external-helpers'
+	'external-helpers',
+	]],
+
+	['es2016', [
+	'syntax-exponentiation-operator',
 	]],
 
 	['stage-3', [
