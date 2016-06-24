@@ -243,5 +243,6 @@ exports.config = new Map([
 	['transform-regenerator', {asyncGenerators: Boolean, generators: Boolean, async: Boolean}],
 	['transform-runtime', {regenerator: Boolean, polyfill: Boolean}],
 	['transform-strict-mode', {strict: Boolean}],
+	['transform-es2015-modules-systemjs', {systemGlobal: String}],
 	['lodash', {id: String, cwd: String}],
 ]);
