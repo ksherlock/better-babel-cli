@@ -71,6 +71,7 @@ exports.plugins = new Set([
 	'transform-react-display-name',
 	'transform-react-inline-elements',
 	'transform-react-jsx-compat',
+	'transform-react-jsx-self',
 	'transform-react-jsx-source',
 	'transform-react-jsx',
 	'transform-regenerator',
