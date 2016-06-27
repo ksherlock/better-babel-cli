@@ -22,7 +22,7 @@
   ],
   "dependencies": {
     "babel-core": "^6.10.4",
-    "babel-generator": "^6.10.2",
+    "babel-generator": "^6.11.0",
     "babel-helpers": "^6.8.0",
     "babel-plugin-check-es2015-constants": "^6.8.0",
     "babel-plugin-external-helpers": "^6.8.0",
@@ -72,7 +72,7 @@
     "babel-plugin-transform-es2015-sticky-regex": "^6.8.0",
     "babel-plugin-transform-es2015-template-literals": "^6.8.0",
     "babel-plugin-transform-es2015-typeof-symbol": "^6.8.0",
-    "babel-plugin-transform-es2015-unicode-regex": "^6.8.0",
+    "babel-plugin-transform-es2015-unicode-regex": "^6.11.0",
     "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
     "babel-plugin-transform-es3-property-literals": "^6.8.0",
     "babel-plugin-transform-es5-property-mutators": "^6.8.0",
