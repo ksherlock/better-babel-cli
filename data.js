@@ -177,7 +177,7 @@ exports.presets = new Map([
 	]],
 
 	['es2016', [
-	'syntax-exponentiation-operator',
+	'transform-exponentiation-operator',
 	]],
 
 	['stage-3', [
@@ -238,14 +238,14 @@ exports.config = new Map([
 	['transform-es2015-classes', {loose: Boolean}],
 	['transform-es2015-computed-properties', {loose: Boolean}],
 	['transform-es2015-for-of', {loose: Boolean}],
-	['transform-es2015-modules-commonjs', {allowTopLevelThis: Boolean}],
+	['transform-es2015-modules-commonjs', {allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean}],
 	['transform-es2015-modules-umd', {globals: Object}], // not currently supported...
 	['transform-es2015-spread', {loose: Boolean}],
 	['transform-es2015-template-literals', {loose: Boolean, spec: Boolean}],
 	['transform-react-jsx', {pragma: String}],
 	['transform-regenerator', {asyncGenerators: Boolean, generators: Boolean, async: Boolean}],
 	['transform-runtime', {regenerator: Boolean, polyfill: Boolean}],
-	['transform-strict-mode', {strict: Boolean}],
+	['transform-strict-mode', {strict: Boolean, strictMode: Boolean}],
 	['transform-es2015-modules-systemjs', {systemGlobal: String}],
 	['lodash', {id: String, cwd: String}],
 ]);
