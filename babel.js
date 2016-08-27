@@ -154,6 +154,7 @@ function help(exitcode) {
 	console.log("    --[no-]comments          Enable/Disable comments.");
 	console.log("    --[no-]compact           Enable/Disable compaction.");
 	console.log("    --loose                  Enable loose mode.");
+	console.log("    --spec                   Enable spec mode.");
 	console.log("    --preset [name]          Enable specified preset.");
 	console.log("    --[no-]plugin [plugin]   Enable/Disable specified plugin.");
 
@@ -173,6 +174,7 @@ var verbose = false;
 var outfile = null;
 var ex;
 var loose = false;
+var spec = false;
 
 var babelrc = {
 	babelrc: false,
@@ -180,7 +182,7 @@ var babelrc = {
 };
 
 var go = [ "help", "help-plugins", "help-presets", "help-config",
-	"verbose!", "version", "babelrc!", "comments!", "compact!", "loose!"];
+	"verbose!", "version", "babelrc!", "comments!", "compact!", "loose!", "spec!"];
 
 // add pre-sets
 data.presets.forEach(function(v, k){
@@ -262,6 +264,10 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 				loose = optarg;
 				break;
 
+			case 'spec':
+				spec = optarg;
+				break;
+
 			case 'o':
 				if (optarg === '-') optarg = null;
 				outfile = optarg;
@@ -308,13 +314,19 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 
 
 if (loose) {
-
 	plugins.forEach(function(value, key, map){
 
 		var x = data.config.get(key);
 		if (x && x.loose === Boolean) value.loose = true;
 	});
+}
 
+if (spec) {
+	plugins.forEach(function(value, key, map){
+
+		var x = data.config.get(key);
+		if (x && x.spec === Boolean) value.spec = true;
+	});
 }
 
 plugins.forEach(function(value,key,map){
