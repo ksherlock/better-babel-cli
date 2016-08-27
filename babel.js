@@ -335,7 +335,15 @@ plugins.forEach(function(value,key,map){
 
 	// special case for transform-es2015-modules-umd
 	if (key === 'transform-es2015-modules-umd' && value) {
+		x = value;
 		value = { globals: value };
+		// move other options from globals to top level.
+		['exactGlobals', 'allowTopLevelThis', 'loose', 'strict', 'strictMode'].forEach(function(k){
+			if (k in x) {
+				value[k] = x[k];
+				delete x[k];
+			}
+		});
 	}
 
 	try {
