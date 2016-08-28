@@ -55,7 +55,8 @@ For example:
     babel --transform-es2015-template-literals loose=true,spec=false
     babel --transform-es2015-template-literals loose,spec=false
 
-`loose` is equivalent to `loose=true`.
+`loose` is equivalent to `loose=true`. `--loose` and `--spec` set the loose
+and spec properties, respectively, for all plugins.
 
 `--transform-es2015-modules-umd` is a special case.  This `.babelrc`
 
