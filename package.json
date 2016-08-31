@@ -36,7 +36,7 @@
     "babel-plugin-minify-infinity": "0.0.1",
     "babel-plugin-minify-mangle-names": "0.0.2",
     "babel-plugin-minify-replace": "0.0.1",
-    "babel-plugin-minify-simplify": "0.0.1",
+    "babel-plugin-minify-simplify": "0.0.2",
     "babel-plugin-minify-type-constructors": "0.0.1",
     "babel-plugin-mjsx": "^4.1.1",
     "babel-plugin-syntax-async-functions": "^6.13.0",
