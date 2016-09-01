@@ -23,6 +23,8 @@
   "dependencies": {
     "babel-core": "^6.14.0",
     "babel-generator": "^6.14.0",
+    "babel-helper-builder-react-jsx": "^6.9.0",
+    "babel-helper-regex": "^6.9.0",
     "babel-helpers": "^6.8.0",
     "babel-plugin-check-es2015-constants": "^6.8.0",
     "babel-plugin-external-helpers": "^6.8.0",
