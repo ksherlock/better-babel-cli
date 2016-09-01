@@ -97,10 +97,10 @@ exports.plugins = new Set([
 
 
 	// 3rd party
+	'inferno',
+	'lodash',
 	'mjsx',
 	'transform-symbol-member',
-	'lodash',
-	'inferno',
 ]);
 
 exports.presets = new Map([
