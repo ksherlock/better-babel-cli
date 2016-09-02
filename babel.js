@@ -87,6 +87,41 @@ function read_stdin() {
 	})
 }
 
+/* move unknown options into a child object. */
+function splatify(data, keys) {
+	
+	var splat = {};
+	var rv = {};
+
+	var lookup = function(o,k) {
+		return Object.prototype.hasOwnProperty.call(o, k) ? o[k] : void(0);
+	};
+
+	// find the splat object in keys
+	Object.keys(keys).forEach( (k) => {
+		if (keys[k] === Object) rv[k] = splat;
+	});
+
+	Object.keys(data).forEach((k) => {
+
+		var v = data[k];
+		var type = lookup(keys, k);
+
+		switch(type) {
+		case Object: // same name as the splat key.
+		case undefined:
+			splat[k] = v;
+			break;
+		default:
+			rv[k] = v;
+			break;
+		}
+
+	});
+
+	return rv;
+}
+
 function version() {
 	var pkg = require('./package.json');
 	console.log(`better-babel-cli version ${pkg.version}`);
@@ -125,6 +160,7 @@ function help_plugins() {
 }
 
 function config_str(o) {
+
 	return Object.keys(o).map(function(k){
 		return `${k}=${o[k].name}`;
 	}).join(',');
@@ -313,6 +349,20 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 });
 
 
+// special handling for config options that go into a child object
+plugins.forEach(function(value,key,map){
+
+	if (key === 'transform-es2015-modules-umd' || key === 'minify-mangle-names' ) {
+		value = splatify(value, data.config.get(key));
+		map.set(key, value);
+	}
+
+	if (key === 'minify-replace') {
+		// todo -- overly complicated structure...
+	}
+
+});
+
 if (loose) {
 	plugins.forEach(function(value, key, map){
 
@@ -332,19 +382,6 @@ if (spec) {
 plugins.forEach(function(value,key,map){
 	if (verbose) console.warn(`requiring ${key}`);
 	var x, y, ex;
-
-	// special case for transform-es2015-modules-umd
-	if (key === 'transform-es2015-modules-umd' && value) {
-		x = value;
-		value = { globals: value };
-		// move other options from globals to top level.
-		['exactGlobals', 'allowTopLevelThis', 'loose', 'strict', 'strictMode'].forEach(function(k){
-			if (k in x) {
-				value[k] = x[k];
-				delete x[k];
-			}
-		});
-	}
 
 	try {
 		x = `./babel-plugin/${key}.js`;

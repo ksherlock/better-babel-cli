@@ -310,15 +310,24 @@ exports.config = new Map([
 	['transform-es2015-computed-properties', {loose: Boolean}],
 	['transform-es2015-destructuring', {loose: Boolean}],
 	['transform-es2015-for-of', {loose: Boolean}],
-	['transform-es2015-modules-amd', {allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean}], // not currently supported...
+	['transform-es2015-modules-amd', {allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean}],
 	['transform-es2015-modules-commonjs', {allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean}],
 	['transform-es2015-modules-systemjs', {loose: Boolean, systemGlobal: String}],
-	['transform-es2015-modules-umd', {globals: Object, exactGlobals: Boolean, allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean }], 
+	['transform-es2015-modules-umd', {globals: Object, exactGlobals: Boolean, allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean }],
 	['transform-es2015-spread', {loose: Boolean}],
 	['transform-es2015-template-literals', {loose: Boolean, spec: Boolean}],
 	['transform-react-jsx', {pragma: String}],
 	['transform-regenerator', {asyncGenerators: Boolean, generators: Boolean, async: Boolean}],
 	['transform-runtime', {regenerator: Boolean, polyfill: Boolean}],
 	['transform-strict-mode', {strict: Boolean, strictMode: Boolean}],
+
+	// babeli
+	['minify-dead-code-elimination', {keepFnames: Boolean}],
+	['minify-mangle-names', {blacklist: Object, eval: Boolean, keepFnames: Boolean}],
+	// not yet supported.
+	['minify-replace', { replacements: Object}],
+
+	// third party.
 	['lodash', {id: String, cwd: String}],
+
 ]);
