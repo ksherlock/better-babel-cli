@@ -316,6 +316,7 @@ exports.config = new Map([
 	['transform-es2015-modules-umd', {globals: Object, exactGlobals: Boolean, allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean }],
 	['transform-es2015-spread', {loose: Boolean}],
 	['transform-es2015-template-literals', {loose: Boolean, spec: Boolean}],
+	['transform-object-rest-spread', {useBuiltIns: Boolean}],
 	['transform-react-jsx', {pragma: String}],
 	['transform-regenerator', {asyncGenerators: Boolean, generators: Boolean, async: Boolean}],
 	['transform-runtime', {regenerator: Boolean, polyfill: Boolean}],
