@@ -237,12 +237,14 @@ exports.presets = new Map([
 	'syntax-trailing-function-commas',
 	'transform-async-to-generator',
 	'transform-exponentiation-operator',
+	'transform-object-rest-spread',
 	]],
 
 	['stage-2', [
 	'syntax-trailing-function-commas',
 	'transform-async-to-generator',
 	'transform-exponentiation-operator',
+	'transform-object-rest-spread',
 
 	'transform-object-rest-spread',
 	]],
@@ -251,6 +253,7 @@ exports.presets = new Map([
 	'syntax-trailing-function-commas',
 	'transform-async-to-generator',
 	'transform-exponentiation-operator',
+	'transform-object-rest-spread',
 
 	'transform-object-rest-spread',
 
@@ -264,6 +267,7 @@ exports.presets = new Map([
 	'syntax-trailing-function-commas',
 	'transform-async-to-generator',
 	'transform-exponentiation-operator',
+	'transform-object-rest-spread',
 
 	'transform-object-rest-spread',
 
