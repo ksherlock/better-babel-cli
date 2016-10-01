@@ -238,6 +238,7 @@ exports.presets = new Map([
 	'transform-async-to-generator',
 	'transform-exponentiation-operator',
 	'transform-object-rest-spread',
+	'transform-async-generator-functions',
 	]],
 
 	['stage-2', [
@@ -245,6 +246,7 @@ exports.presets = new Map([
 	'transform-async-to-generator',
 	'transform-exponentiation-operator',
 	'transform-object-rest-spread',
+	'transform-async-generator-functions',
 
 	'transform-object-rest-spread',
 	]],
@@ -254,6 +256,7 @@ exports.presets = new Map([
 	'transform-async-to-generator',
 	'transform-exponentiation-operator',
 	'transform-object-rest-spread',
+	'transform-async-generator-functions',
 
 	'transform-object-rest-spread',
 
@@ -268,6 +271,7 @@ exports.presets = new Map([
 	'transform-async-to-generator',
 	'transform-exponentiation-operator',
 	'transform-object-rest-spread',
+	'transform-async-generator-functions',
 
 	'transform-object-rest-spread',
 
