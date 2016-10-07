@@ -331,7 +331,7 @@ exports.config = new Map([
 	['transform-strict-mode', {strict: Boolean, strictMode: Boolean}],
 
 	// babeli
-	['minify-dead-code-elimination', {keepFnames: Boolean}],
+	['minify-dead-code-elimination', {keepFnames: Boolean, optimizeRawSize: Boolean}],
 	['minify-mangle-names', {blacklist: Object, eval: Boolean, keepFnames: Boolean}],
 	// not yet supported.
 	['minify-replace', { replacements: Object}],
