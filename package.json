@@ -31,7 +31,7 @@
     "babel-plugin-inferno": "^0.7.7",
     "babel-plugin-lodash": "^3.2.9",
     "babel-plugin-minify-constant-folding": "0.0.1",
-    "babel-plugin-minify-dead-code-elimination": "0.0.3",
+    "babel-plugin-minify-dead-code-elimination": "0.0.4",
     "babel-plugin-minify-empty-function": "0.0.1",
     "babel-plugin-minify-flip-comparisons": "0.0.1",
     "babel-plugin-minify-guarded-expressions": "0.0.3",
