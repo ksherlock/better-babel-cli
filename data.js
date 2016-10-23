@@ -221,7 +221,6 @@ exports.presets = new Map([
 	'transform-es2015-destructuring',
 	'transform-es2015-block-scoping',
 	'transform-es2015-typeof-symbol',
-	'transform-es2015-modules-commonjs',
 	['transform-regenerator', { async: false, asyncGenerators: false }],
 
 	// es 2016
