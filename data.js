@@ -247,7 +247,9 @@ exports.presets = new Map([
 	'transform-object-rest-spread',
 	'transform-async-generator-functions',
 
-	'transform-object-rest-spread',
+	'syntax-dynamic-import',
+	'transform-decorators',
+	'transform-class-properties',
 	]],
 
 	['stage-1', [
@@ -257,11 +259,11 @@ exports.presets = new Map([
 	'transform-object-rest-spread',
 	'transform-async-generator-functions',
 
-	'transform-object-rest-spread',
+	'syntax-dynamic-import',
+	'transform-decorators',
+	'transform-class-properties',
 
 	'transform-class-constructor-call',
-	'transform-class-properties',
-	'transform-decorators',
 	'transform-export-extensions',
 	]],
 
@@ -272,11 +274,11 @@ exports.presets = new Map([
 	'transform-object-rest-spread',
 	'transform-async-generator-functions',
 
-	'transform-object-rest-spread',
+	'syntax-dynamic-import',
+	'transform-decorators',
+	'transform-class-properties',
 
 	'transform-class-constructor-call',
-	'transform-class-properties',
-	'transform-decorators',
 	'transform-export-extensions',
 
 	'transform-do-expressions',
