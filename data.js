@@ -81,6 +81,7 @@ exports.plugins = new Set([
 	'minify-guarded-expressions',
 	'minify-infinity',
 	'minify-mangle-names',
+	'minify-numeric-literals',
 	'minify-replace',
 	'minify-simplify',
 	'minify-type-constructors',
@@ -90,6 +91,7 @@ exports.plugins = new Set([
 	'transform-minify-booleans',
 	'transform-node-env-inline',
 	'transform-property-literals',
+	'transform-regexp-constructors',
 	'transform-remove-console',
 	'transform-remove-debugger',
 	'transform-simplify-comparison-operators',
@@ -293,6 +295,7 @@ exports.presets = new Map([
 	'minify-guarded-expressions',
 	'minify-infinity',
 	'minify-mangle-names',
+	'minify-numeric-literals',
 	'minify-replace',
 	'minify-simplify',
 	'minify-type-constructors',
@@ -300,6 +303,7 @@ exports.presets = new Map([
 	'transform-merge-sibling-variables',
 	'transform-minify-booleans',
 	'transform-property-literals',
+	'transform-regexp-constructors',
 	'transform-simplify-comparison-operators',
 	'transform-undefined-to-void',
 	]],
@@ -332,7 +336,7 @@ exports.config = new Map([
 	['transform-runtime', {regenerator: Boolean, polyfill: Boolean}],
 	['transform-strict-mode', {strict: Boolean, strictMode: Boolean}],
 
-	// babeli
+	// babili
 	['minify-dead-code-elimination', {keepFnArgs: Boolean, keepFnName: Boolean, optimizeRawSize: Boolean}],
 	['minify-mangle-names', {blacklist: Object, eval: Boolean, keepFnName: Boolean}],
 	// not yet supported.
