@@ -101,6 +101,7 @@ exports.plugins = new Set([
 	'lodash',
 	'mjsx',
 	'transform-symbol-member',
+	'transform-vue-jsx',
 ]);
 
 exports.presets = new Map([
