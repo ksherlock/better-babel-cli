@@ -283,7 +283,7 @@ babel-plugin-minify-numeric-literals@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-minify-numeric-literals/-/babel-plugin-minify-numeric-literals-0.0.1.tgz#9597e6c31154d7daf3744d0bd417c144b275bd53"
 
-babel-plugin-minify-replace@0.0.1:
+babel-plugin-minify-replace@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-minify-replace/-/babel-plugin-minify-replace-0.0.1.tgz#5d5aea7cb9899245248d1ee9ce7a2fe556a8facc"
 
@@ -658,6 +658,10 @@ babel-plugin-transform-function-bind@^6.8.0:
     babel-plugin-syntax-function-bind "^6.8.0"
     babel-runtime "^6.0.0"
 
+babel-plugin-transform-inline-consecutive-adds@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-inline-consecutive-adds/-/babel-plugin-transform-inline-consecutive-adds-0.0.1.tgz#3b9e48bd0c72a7d795763bf686774132134be946"
+
 babel-plugin-transform-inline-environment-variables@^6.8.0:
   version "6.8.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-inline-environment-variables/-/babel-plugin-transform-inline-environment-variables-6.8.0.tgz#fc91dd08127dc6c2abdfd1721b11e9602a69ba10"
@@ -792,6 +796,10 @@ babel-plugin-transform-remove-debugger@^6.8.0:
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-debugger/-/babel-plugin-transform-remove-debugger-6.8.0.tgz#d3ece7d8400473f7a706177ba22fd3026ad7e020"
   dependencies:
     babel-runtime "^6.0.0"
+
+babel-plugin-transform-remove-undefined@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-undefined/-/babel-plugin-transform-remove-undefined-0.0.1.tgz#186c6a1365acb49f637d9025a10b6ddbbce02150"
 
 babel-plugin-transform-runtime@^6.15.0:
   version "6.15.0"
