@@ -228,10 +228,10 @@ babel-plugin-external-helpers@^6.18.0:
     babel-runtime "^6.0.0"
 
 babel-plugin-inferno@^1.0.0-legacy:
-  version "1.0.0-legacy"
-  resolved "https://registry.yarnpkg.com/babel-plugin-inferno/-/babel-plugin-inferno-1.0.0-legacy.tgz#9130153bec75e0eb542111e6e74a18df7129a5c9"
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-inferno/-/babel-plugin-inferno-1.4.0.tgz#944c95b16520fb44914c846601484716852a8421"
   dependencies:
-    babel-plugin-syntax-jsx "^6.8.0"
+    babel-plugin-syntax-jsx "^6.18.0"
 
 babel-plugin-lodash@^3.2.9:
   version "3.2.11"
@@ -827,8 +827,8 @@ babel-plugin-transform-undefined-to-void@^6.8.0:
     babel-runtime "^6.0.0"
 
 babel-plugin-transform-vue-jsx@^3.1.1:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-vue-jsx/-/babel-plugin-transform-vue-jsx-3.2.0.tgz#27d550d5fca27ef6f694cf294133179754d184dc"
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-vue-jsx/-/babel-plugin-transform-vue-jsx-3.3.0.tgz#d6163f93f129e9fac3768813470f5eed9fd26f7e"
   dependencies:
     esutils "^2.0.2"
 
@@ -929,8 +929,8 @@ core-js@^2.4.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.4.1.tgz#4de911e667b0eae9124e34254b53aea6fc618d3e"
 
 debug@^2.1.1, debug@^2.2.0:
-  version "2.4.5"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-2.4.5.tgz#34c7b12a1ca96674428f41fe92c49b4ce7cd0607"
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
     ms "0.7.2"
 
@@ -1028,8 +1028,8 @@ lodash.some@^4.6.0:
   resolved "https://registry.yarnpkg.com/lodash.some/-/lodash.some-4.6.0.tgz#1bb9f314ef6b8baded13b549169b2a945eb68e4d"
 
 lodash@^4.16.4, lodash@^4.17.2, lodash@^4.2.0:
-  version "4.17.2"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.2.tgz#34a3055babe04ce42467b607d700072c7ff6bf42"
+  version "4.17.4"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
 loose-envify@^1.0.0:
   version "1.3.0"
@@ -1128,8 +1128,8 @@ slash@^1.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
 
 source-map-support@^0.4.2:
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.6.tgz#32552aa64b458392a85eab3b0b5ee61527167aeb"
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.8.tgz#4871918d8a3af07289182e974e32844327b2e98b"
   dependencies:
     source-map "^0.5.3"
 
