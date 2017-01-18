@@ -341,8 +341,10 @@ exports.config = new Map([
 	['transform-strict-mode', {strict: Boolean, strictMode: Boolean}],
 
 	// babili
-	['minify-dead-code-elimination', {keepFnArgs: Boolean, keepFnName: Boolean, optimizeRawSize: Boolean}],
-	['minify-mangle-names', {blacklist: Object, eval: Boolean, keepFnName: Boolean}],
+	['minify-dead-code-elimination', {keepClassName: Boolean, keepFnArgs: Boolean, keepFnName: Boolean, optimizeRawSize: Boolean}],
+	['minify-mangle-names', {blacklist: Object, eval: Boolean, keepClassName: Boolean, keepFnName: Boolean}],
+	['minify-type-constructors', {array: Boolean, boolean: Boolean, number: Boolean, object: Boolean, string: Boolean}],
+
 	// not yet supported.
 	['minify-replace', { replacements: Object}],
 
