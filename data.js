@@ -350,5 +350,6 @@ exports.config = new Map([
 
 	// third party.
 	['lodash', {id: String, cwd: String}],
+	['inferno', {imports: Boolean }],
 
 ]);
