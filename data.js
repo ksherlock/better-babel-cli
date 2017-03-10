@@ -302,6 +302,10 @@ exports.presets = new Map([
 	'transform-simplify-comparison-operators',
 	'transform-undefined-to-void',
 	]],
+
+	['vue', [
+	'transform-vue-jsx',
+	]]
 ]);
 
 function _(o) {
