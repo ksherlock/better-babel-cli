@@ -99,6 +99,8 @@ exports.plugins = new Set([
 	'transform-simplify-comparison-operators',
 	'transform-undefined-to-void',
 
+	// 3rd party but core babel developers.
+	'transform-decorators-legacy',
 
 	// 3rd party
 	'inferno',
