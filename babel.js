@@ -349,6 +349,23 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 });
 
 
+/*
+ * NOTE: Order of Plugins Matters!
+ *
+ * If you are including your plugins manually and using transform-class-properties, 
+ * make sure that transform-decorators[-legacy] comes before transform-class-properties.
+ */
+// should also check for conflicts, eg, react / vue / inferno.
+if (plugins.has('transform-class-properties')) {
+	if (plugins.has('transform-decorators') || plugins.has('transform-decorators-legacy')) {
+
+		let tmp = plugins.get('transform-class-properties');
+		plugins.delete('transform-class-properties');
+		plugins.set('transform-class-properties', tmp);
+	}
+}
+
+
 // special handling for config options that go into a child object
 plugins.forEach(function(value,key,map){
 
