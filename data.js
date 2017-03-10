@@ -239,52 +239,37 @@ exports.presets = new Map([
 
 
 	['stage-3', [
-	'syntax-trailing-function-commas',
-	'transform-async-to-generator',
-	'transform-exponentiation-operator',
 	'transform-object-rest-spread',
 	'transform-async-generator-functions',
 	]],
 
 	['stage-2', [
-	'syntax-trailing-function-commas',
-	'transform-async-to-generator',
-	'transform-exponentiation-operator',
 	'transform-object-rest-spread',
 	'transform-async-generator-functions',
 
 	'syntax-dynamic-import',
-	'transform-decorators',
 	'transform-class-properties',
 	]],
 
 	['stage-1', [
-	'syntax-trailing-function-commas',
-	'transform-async-to-generator',
-	'transform-exponentiation-operator',
 	'transform-object-rest-spread',
 	'transform-async-generator-functions',
 
 	'syntax-dynamic-import',
-	'transform-decorators',
 	'transform-class-properties',
 
-	'transform-class-constructor-call',
+	'transform-decorators',
 	'transform-export-extensions',
 	]],
 
 	['stage-0', [
-	'syntax-trailing-function-commas',
-	'transform-async-to-generator',
-	'transform-exponentiation-operator',
 	'transform-object-rest-spread',
 	'transform-async-generator-functions',
 
 	'syntax-dynamic-import',
-	'transform-decorators',
 	'transform-class-properties',
 
-	'transform-class-constructor-call',
+	'transform-decorators',
 	'transform-export-extensions',
 
 	'transform-do-expressions',
