@@ -112,7 +112,6 @@ exports.plugins = new Set([
 
 exports.presets = new Map([
 	['react', [
-	'syntax-flow',
 	'syntax-jsx',
 	'transform-flow-strip-types',
 	'transform-react-jsx',
@@ -290,6 +289,11 @@ exports.presets = new Map([
 
 	'transform-do-expressions',
 	'transform-function-bind',
+	]],
+
+
+	['flow', [
+	'transform-flow-strip-types',
 	]],
 
 	['babili',[
