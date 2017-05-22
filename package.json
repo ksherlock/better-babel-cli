@@ -36,7 +36,7 @@
     "babel-plugin-minify-empty-function": "0.0.1",
     "babel-plugin-minify-flip-comparisons": "^0.0.2",
     "babel-plugin-minify-guarded-expressions": "^0.0.4",
-    "babel-plugin-minify-infinity": "0.0.1",
+    "babel-plugin-minify-infinity": "0.1.0",
     "babel-plugin-minify-mangle-names": "^0.0.8",
     "babel-plugin-minify-numeric-literals": "^0.0.1",
     "babel-plugin-minify-replace": "^0.0.4",
