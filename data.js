@@ -18,6 +18,7 @@ exports.plugins = new Set([
 	'syntax-object-rest-spread',
 	'syntax-trailing-function-commas',
 	'transform-async-functions',
+	'transform-async-generator-functions',
 	'transform-async-to-generator',
 	'transform-async-to-module-method',
 	'transform-class-constructor-call',
@@ -240,40 +241,52 @@ exports.presets = new Map([
 
 
 	['stage-3', [
-	'transform-object-rest-spread',
+	'syntax-trailing-function-commas',
+	'transform-async-to-generator',
+	'transform-exponentiation-operator',
 	'transform-async-generator-functions',
+	'transform-object-rest-spread',
 	]],
 
 	['stage-2', [
-	'transform-object-rest-spread',
+	'syntax-trailing-function-commas',
+	'transform-async-to-generator',
+	'transform-exponentiation-operator',
 	'transform-async-generator-functions',
+	'transform-object-rest-spread',
 
 	'syntax-dynamic-import',
 	'transform-class-properties',
-	'transform-unicode-property-regex',
+	'transform-decorators',
 	]],
 
 	['stage-1', [
-	'transform-object-rest-spread',
+	'syntax-trailing-function-commas',
+	'transform-async-to-generator',
+	'transform-exponentiation-operator',
 	'transform-async-generator-functions',
+	'transform-object-rest-spread',
 
 	'syntax-dynamic-import',
 	'transform-class-properties',
-	'transform-unicode-property-regex',
-
 	'transform-decorators',
+
+	'transform-class-constructor-call',
 	'transform-export-extensions',
 	]],
 
 	['stage-0', [
-	'transform-object-rest-spread',
+	'syntax-trailing-function-commas',
+	'transform-async-to-generator',
+	'transform-exponentiation-operator',
 	'transform-async-generator-functions',
+	'transform-object-rest-spread',
 
 	'syntax-dynamic-import',
 	'transform-class-properties',
-	'transform-unicode-property-regex',
-
 	'transform-decorators',
+
+	'transform-class-constructor-call',
 	'transform-export-extensions',
 
 	'transform-do-expressions',
