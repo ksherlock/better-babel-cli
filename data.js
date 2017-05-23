@@ -103,7 +103,7 @@ exports.plugins = new Set([
 
 	// 3rd party but core babel developers.
 	'transform-decorators-legacy',
-	'transform-unicode-property-regex',
+	//'transform-unicode-property-regex',
 
 	// 3rd party
 	'inferno',
