@@ -74,9 +74,9 @@ exports.plugins = new Set([
 	'undeclared-variables-check',
 
 	// babili
+	'minify-builtins',
 	'minify-constant-folding',
 	'minify-dead-code-elimination',
-	'minify-empty-function',
 	'minify-flip-comparisons',
 	'minify-guarded-expressions',
 	'minify-infinity',
@@ -101,6 +101,7 @@ exports.plugins = new Set([
 
 	// 3rd party but core babel developers.
 	'transform-decorators-legacy',
+	'transform-unicode-property-regex',
 
 	// 3rd party
 	'inferno',
@@ -249,6 +250,7 @@ exports.presets = new Map([
 
 	'syntax-dynamic-import',
 	'transform-class-properties',
+	'transform-unicode-property-regex',
 	]],
 
 	['stage-1', [
@@ -257,6 +259,7 @@ exports.presets = new Map([
 
 	'syntax-dynamic-import',
 	'transform-class-properties',
+	'transform-unicode-property-regex',
 
 	'transform-decorators',
 	'transform-export-extensions',
@@ -268,6 +271,7 @@ exports.presets = new Map([
 
 	'syntax-dynamic-import',
 	'transform-class-properties',
+	'transform-unicode-property-regex',
 
 	'transform-decorators',
 	'transform-export-extensions',
@@ -282,6 +286,7 @@ exports.presets = new Map([
 	]],
 
 	['babili',[
+	'minify-builtins',
 	'minify-constant-folding',
 	'minify-dead-code-elimination',
 	'minify-flip-comparisons',
@@ -337,7 +342,7 @@ exports.config = new Map([
 
 	// babili
 	['minify-dead-code-elimination', {keepClassName: Boolean, keepFnArgs: Boolean, keepFnName: Boolean, optimizeRawSize: Boolean}],
-	['minify-mangle-names', {blacklist: Object, eval: Boolean, keepClassName: Boolean, keepFnName: Boolean}],
+	['minify-mangle-names', {blacklist: Object, eval: Boolean, keepClassName: Boolean, keepFnName: Boolean, topLevel: Boolean}],
 	['minify-type-constructors', {array: Boolean, boolean: Boolean, number: Boolean, object: Boolean, string: Boolean}],
 
 	// not yet supported.
