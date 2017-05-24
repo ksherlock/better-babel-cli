@@ -36,6 +36,16 @@ function _(x) {
 	return Array.isArray(x) ? x : [x];
 }
 
+/* delete and re-insert a key in a map so it shuffles to the end */
+function move_back(map, key) {
+
+	if (map.has(key)) {
+		let tmp = map.get(key);
+		map.delete(key);
+		map.set(key, tmp);
+	}
+}
+
 function transform(code, options) {
 	var ex;
 	try {
@@ -355,15 +365,17 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
  * If you are including your plugins manually and using transform-class-properties, 
  * make sure that transform-decorators[-legacy] comes before transform-class-properties.
  */
-// should also check for conflicts, eg, react / vue / inferno.
-if (plugins.has('transform-class-properties')) {
-	if (plugins.has('transform-decorators') || plugins.has('transform-decorators-legacy')) {
 
-		let tmp = plugins.get('transform-class-properties');
-		plugins.delete('transform-class-properties');
-		plugins.set('transform-class-properties', tmp);
-	}
+/* turns out the above advice is backwards.... */
+
+// should also check for conflicts, eg, react / vue / inferno.
+
+if (plugins.has('transform-class-properties')) {
+	move_back(plugins, 'transform-decorators');
+	move_back(plugins, 'transform-decorators-legacy');
 }
+
+
 
 
 // special handling for config options that go into a child object
