@@ -125,6 +125,7 @@ exports.presets = new Map([
 	['react-native', [
 	'syntax-async-functions',
 	'syntax-class-properties',
+	'syntax-dynamic-import',
 	'syntax-trailing-function-commas',
 	'transform-class-properties',
 	'transform-es2015-function-name',
@@ -144,6 +145,7 @@ exports.presets = new Map([
 	'transform-object-assign',
 	'transform-object-rest-spread',
 	'transform-react-display-name',
+	'transform-react-jsx-source',
 	'transform-react-jsx',
 	'transform-regenerator',
 	['transform-es2015-for-of', { loose: true }],
