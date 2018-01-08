@@ -317,6 +317,8 @@ exports.presets = new Map([
 	'transform-minify-booleans',
 	'transform-property-literals',
 	'transform-regexp-constructors',
+	'transform-remove-console',
+	'transform-remove-debugger',
 	'transform-remove-undefined',
 	'transform-simplify-comparison-operators',
 	'transform-undefined-to-void',
@@ -355,12 +357,18 @@ exports.config = new Map([
 	['transform-strict-mode', {strict: Boolean, strictMode: Boolean}],
 
 	// babili
-	['minify-dead-code-elimination', {keepClassName: Boolean, keepFnArgs: Boolean, keepFnName: Boolean, optimizeRawSize: Boolean}],
+	['minify-builtins', {tdz: Boolean}],
+	['minify-constant-folding', {tdz: Boolean}],
+	['minify-dead-code-elimination', {keepClassName: Boolean, keepFnArgs: Boolean, keepFnName: Boolean, optimizeRawSize: Boolean, tdz: Boolean}],
 	['minify-mangle-names', {blacklist: Object, eval: Boolean, keepClassName: Boolean, keepFnName: Boolean, topLevel: Boolean}],
 	['minify-type-constructors', {array: Boolean, boolean: Boolean, number: Boolean, object: Boolean, string: Boolean}],
+	['minify-type-constructors', {array: Boolean, boolean: Boolean, number: Boolean, object: Boolean, string: Boolean}],
+	['transform-remove-console', {tdz: Boolean}],
 
 	// not yet supported.
 	['minify-replace', { replacements: Object}],
+	['transform-inline-environment-variables', {include: Array, exclude: Array}],
+	['transform-remove-console', {exclude: Array}],
 
 	// third party.
 	['lodash', {id: String, cwd: String}],

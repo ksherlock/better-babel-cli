@@ -699,11 +699,9 @@ babel-plugin-transform-inline-consecutive-adds@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-inline-consecutive-adds/-/babel-plugin-transform-inline-consecutive-adds-0.2.0.tgz#15dae78921057f4004f8eafd79e15ddc5f12f426"
 
-babel-plugin-transform-inline-environment-variables@^6.8.0:
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-inline-environment-variables/-/babel-plugin-transform-inline-environment-variables-6.8.0.tgz#fc91dd08127dc6c2abdfd1721b11e9602a69ba10"
-  dependencies:
-    babel-runtime "^6.0.0"
+babel-plugin-transform-inline-environment-variables@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-inline-environment-variables/-/babel-plugin-transform-inline-environment-variables-0.2.0.tgz#37dad411a819667fd69c33e72f7a14ea1a50ba98"
 
 babel-plugin-transform-jscript@^6.8.0:
   version "6.22.0"
@@ -723,11 +721,9 @@ babel-plugin-transform-minify-booleans@^6.8.0:
   version "6.8.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-minify-booleans/-/babel-plugin-transform-minify-booleans-6.8.3.tgz#5906ed776d3718250519abf1bace44b0b613ddf9"
 
-babel-plugin-transform-node-env-inline@^6.8.0:
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-node-env-inline/-/babel-plugin-transform-node-env-inline-6.8.0.tgz#80d2f9e6dd6f86a943b1378655df5d2cdc11b533"
-  dependencies:
-    babel-runtime "^6.0.0"
+babel-plugin-transform-node-env-inline@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-node-env-inline/-/babel-plugin-transform-node-env-inline-0.2.0.tgz#b13c2aafd4a7cbefeba07091a1134d402147d192"
 
 babel-plugin-transform-object-assign@^6.8.0:
   version "6.22.0"
@@ -818,7 +814,7 @@ babel-plugin-transform-regexp-constructors@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-regexp-constructors/-/babel-plugin-transform-regexp-constructors-0.2.0.tgz#6aa5dd0acc515db4be929bbcec4ed4c946c534a3"
 
-babel-plugin-transform-remove-console@^6.8.0:
+babel-plugin-transform-remove-console@^6.8.5:
   version "6.8.5"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-console/-/babel-plugin-transform-remove-console-6.8.5.tgz#fde9d2d3d725530b0fadd8d31078402410386810"
 
@@ -878,7 +874,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@^6.0.0, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
+babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
