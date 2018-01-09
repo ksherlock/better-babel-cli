@@ -97,6 +97,55 @@ function read_stdin() {
 	})
 }
 
+function coerce_type(v, t) {
+	if (t == Array) return v.split((/\s*;\s*/)).filter( (x) => x.length > 0);
+	if (t == Boolean) {
+		switch(v) {
+			case undefined: // 'tdz' => key=tdz, value=undefined ... so treat as true.
+			case null:
+			case "true":
+				return true;
+			case "false":
+			case "":
+			case "0":
+				return false;
+			case true:
+			case false:
+				return v;
+			default:
+				var x = Number.parseInt(v,10);
+				if (Number.isNaN(x)) return false;
+				return x != 0;
+		}
+	}
+	if (t == Number) {
+		if (v.match(/^0x/)) return Number.parseInt(v, 16);
+		return Number.parseInt(v, 10);
+	}
+
+	return v;
+}
+
+
+function coerce_types(data, keys) {
+
+	var lookup = function(o,k) {
+		return Object.prototype.hasOwnProperty.call(o, k) ? o[k] : void(0);
+	};
+
+	var rv = {};
+	Object.keys(data).forEach((k) => {
+
+		var v = data[k];
+		var type = lookup(keys, k);
+
+		rv[k] = coerce_type(v, type);
+
+	});
+
+	return rv;
+}
+
 /* move unknown options into a child object. */
 function splatify(data, keys) {
 	
@@ -123,7 +172,7 @@ function splatify(data, keys) {
 			splat[k] = v;
 			break;
 		default:
-			rv[k] = v;
+			rv[k] = coerce_type(v, type);
 			break;
 		}
 
@@ -388,13 +437,20 @@ if (plugins.has('transform-class-properties')) {
 // special handling for config options that go into a child object
 plugins.forEach(function(value,key,map){
 
-	if (key === 'transform-es2015-modules-umd' || key === 'minify-mangle-names' ) {
-		value = splatify(value, data.config.get(key));
-		map.set(key, value);
-	}
-
-	if (key === 'minify-replace') {
-		// todo -- overly complicated structure...
+	var config = data.config.get(key);
+	switch(key) {
+		case 'transform-es2015-modules-umd':
+		case 'minify-mangle-names':
+			value = splatify(value, config);
+			map.set(key, value);
+			break;
+		case 'minify-replace':
+			// todo -- overly complicated structure...
+			break;
+		default:
+			value = coerce_type(value, config);
+			map.set(key, value);
+			break;
 	}
 
 });

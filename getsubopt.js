@@ -29,15 +29,6 @@ module.exports = function(string){
 			k = kv.substr(0, i);
 			v = kv.substr(i+1);
 		}
-		switch(v){
-			case undefined:
-			case 'true':
-				v = true;
-				break;
-			case 'false':
-				v = false;
-				break; 
-		}
 		rv[k] = v;
 	});
 

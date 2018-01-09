@@ -365,12 +365,14 @@ exports.config = new Map([
 	['minify-mangle-names', {blacklist: Object, eval: Boolean, keepClassName: Boolean, keepFnName: Boolean, topLevel: Boolean}],
 	['minify-type-constructors', {array: Boolean, boolean: Boolean, number: Boolean, object: Boolean, string: Boolean}],
 	['minify-type-constructors', {array: Boolean, boolean: Boolean, number: Boolean, object: Boolean, string: Boolean}],
-	['transform-remove-console', {tdz: Boolean}],
+	['transform-remove-undefined', {tdz: Boolean}],
 
 	// not yet supported.
 	['minify-replace', { replacements: Object}],
-	['transform-inline-environment-variables', {include: Array, exclude: Array}],
-	['transform-remove-console', {exclude: Array}],
+
+	// not in current version.
+	//['transform-inline-environment-variables', {include: Array, exclude: Array}],
+	//['transform-remove-console', {exclude: Array}],
 
 	// third party.
 	['lodash', {id: String, cwd: String}],
