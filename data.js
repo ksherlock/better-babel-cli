@@ -355,7 +355,7 @@ exports.config = new Map([
 	['transform-object-rest-spread', {useBuiltIns: Boolean}],
 	['transform-react-jsx', {pragma: String}],
 	['transform-regenerator', {asyncGenerators: Boolean, generators: Boolean, async: Boolean}],
-	['transform-runtime', {regenerator: Boolean, polyfill: Boolean}],
+	['transform-runtime', {helpers: Boolean, moduleName: String, polyfill: Boolean, regenerator: Boolean, }],
 	['transform-strict-mode', {strict: Boolean, strictMode: Boolean}],
 
 	// babili
