@@ -451,7 +451,7 @@ plugins.forEach(function(value,key,map){
 			// todo -- overly complicated structure...
 			break;
 		default:
-			value = coerce_type(value, config);
+			value = coerce_types(value, config);
 			map.set(key, value);
 			break;
 	}
