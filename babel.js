@@ -429,6 +429,9 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 if (plugins.has('transform-class-properties')) {
 	move_back(plugins, 'transform-decorators');
 	move_back(plugins, 'transform-decorators-legacy');
+
+	// transform-class-properties should come before transform-es2015-classes
+	move_back(plugins, 'transform-es2015-classes');
 }
 
 
