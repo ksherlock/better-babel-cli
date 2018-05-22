@@ -342,19 +342,22 @@ function _(o) {
 exports.config = new Map([
 	['transform-async-to-module-method', {module: String, method: String}],
 	['transform-es2015-arrow-functions', {spec: Boolean}],
+	['transform-es2015-block-scoping', {throwIfClosureRequired: Boolean}],
 	['transform-es2015-classes', {loose: Boolean}],
 	['transform-es2015-computed-properties', {loose: Boolean}],
 	['transform-es2015-destructuring', {loose: Boolean}],
 	['transform-es2015-for-of', {loose: Boolean}],
 	['transform-es2015-modules-amd', {allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean}],
-	['transform-es2015-modules-commonjs', {allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean}],
+	['transform-es2015-modules-commonjs', {allowTopLevelThis: Boolean, loose: Boolean, noInterop: Boolean, strict: Boolean, strictMode: Boolean}],
 	['transform-es2015-modules-systemjs', {loose: Boolean, systemGlobal: String}],
 	['transform-es2015-modules-umd', {globals: Object, exactGlobals: Boolean, allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean }],
 	['transform-es2015-spread', {loose: Boolean}],
 	['transform-es2015-template-literals', {loose: Boolean, spec: Boolean}],
+	['transform-inline-environment-variables', {include: Array, exclude: Array}],
 	['transform-object-rest-spread', {useBuiltIns: Boolean}],
 	['transform-react-jsx', {pragma: String}],
 	['transform-regenerator', {asyncGenerators: Boolean, generators: Boolean, async: Boolean}],
+	['transform-remove-console', {exclude: Array}],
 	['transform-runtime', {helpers: Boolean, moduleName: String, polyfill: Boolean, regenerator: Boolean, }],
 	['transform-strict-mode', {strict: Boolean, strictMode: Boolean}],
 
@@ -362,7 +365,9 @@ exports.config = new Map([
 	['minify-builtins', {tdz: Boolean}],
 	['minify-constant-folding', {tdz: Boolean}],
 	['minify-dead-code-elimination', {keepClassName: Boolean, keepFnArgs: Boolean, keepFnName: Boolean, optimizeRawSize: Boolean, tdz: Boolean}],
-	['minify-mangle-names', {blacklist: Object, eval: Boolean, keepClassName: Boolean, keepFnName: Boolean, topLevel: Boolean}],
+
+	// TODO - exclude is a hash of {name => bool}
+	['minify-mangle-names', {exclude: Object, eval: Boolean, keepClassName: Boolean, keepFnName: Boolean, topLevel: Boolean}],
 	['minify-type-constructors', {array: Boolean, boolean: Boolean, number: Boolean, object: Boolean, string: Boolean}],
 	['minify-type-constructors', {array: Boolean, boolean: Boolean, number: Boolean, object: Boolean, string: Boolean}],
 	['transform-remove-undefined', {tdz: Boolean}],
@@ -371,8 +376,6 @@ exports.config = new Map([
 	['minify-replace', { replacements: Object}],
 
 	// not in current version.
-	//['transform-inline-environment-variables', {include: Array, exclude: Array}],
-	//['transform-remove-console', {exclude: Array}],
 
 	// third party.
 	['lodash', {id: String, cwd: String}],
