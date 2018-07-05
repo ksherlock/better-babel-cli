@@ -84,11 +84,8 @@ function read_stdin() {
 		var stdin = process.stdin;
 		stdin.setEncoding("utf8");
 
-		stdin.on("readable", function () {
-			var chunk;
-			while (chunk = stdin.read()) {
-				rv += chunk;
-			}
+		stdin.on("data", function (chunk) {
+			rv += chunk;
 		});
 
 		stdin.on("end", function () {
@@ -553,5 +550,8 @@ read_stdin().then(function(code){
 	}
 	process.exit(EX.OK);
 
+}).catch((ex) => { 
+	console.warn(ex.message);
+	process.exit(EX.DATAERR);
 });
 
