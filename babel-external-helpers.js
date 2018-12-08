@@ -22,12 +22,12 @@
 
 var fs = require("fs");
 
-var babel = require('babel-core');
+var babel = require('@babel/core');
 const EX = require('sysexits');
 var getopt_long = require('./getopt').getopt_long;
-var bh = require('babel-helpers');
-var bt = require('babel-types');
-var bg = require("babel-generator");
+var bh = require('@babel/helpers');
+var bt = require('@babel/types');
+var bg = require('@babel/generator');
 
 var opts = {
 	o: null,
@@ -64,61 +64,11 @@ function iterate_functions(whitelist, callback) {
 	var list = bh.list;
 	list.forEach( function(fn){
 		if (whitelist && whitelist.indexOf(fn) < 0) return;
-
-		callback(fn, bh.get(fn));
+		const {nodes} = bh.get(fn);
+		callback(fn, [...nodes]);
 	});
 }
 
-
-/*
- * As of 4/18/2016, buildExternalHelpers does not support export 
- * (a pull request has been submitted)
- *
- */
-
-function buildExternalHelpers(list, type) {
-	var ex;
-	try {
-		return babel.buildExternalHelpers(list, type); 
-	} catch (ex) {
-		if (type === 'export') return buildExports(list);
-	}
-}
-
-
-
-
-function buildExports(whitelist) {
-
-	var body = [];
-	var exports = [];
-
-	iterate_functions(whitelist, function(fn, template){
-
-		var _key = bt.identifier("_" + fn);
-		var key = bt.identifier(fn);
-
-		body.push(
-			bt.variableDeclaration("var", [
-				bt.variableDeclarator(_key, template)
-			])
-		);
-
-		exports.push(bt.exportSpecifier(_key, key));
-	});
-
-	body.push(
-		bt.exportNamedDeclaration(
-			null,
-			exports,
-			null
-		)
-	);
-
-	var tree = bt.program(body);
-	var code = bg.default(tree).code;
-	return code;
-}
 
 function buildRuntime(path, whitelist) {
 	var ex;
@@ -140,21 +90,9 @@ function buildRuntime(path, whitelist) {
 	iterate_functions(whitelist, function(fn, template){
 
 		var _key = bt.identifier("_" + fn);
-		var body = [];
+		var body = template;
 
-		body.push(
-			bt.variableDeclaration("var", [
-				bt.variableDeclarator(_key, template)
-			])
-		);
 
-		body.push(
-			bt.exportNamedDeclaration(
-				null,
-				[bt.exportSpecifier(_key, _default)],
-				null
-			)
-		);
 		var tree = bt.program(body);
 		var code = bg.default(tree).code;
 		fs.writeFileSync(`${path}/${fn}.js`, code + "\n");
@@ -170,7 +108,7 @@ function help(exitcode) {
 	console.log("    -o [outfile]             Write output to file.");
 	console.log("    -h, --help               Display usage information.");
 	console.log("    -l, --whitelist [list]   Whitelist of helpers to ONLY include.");
-	console.log("    -t, --output-type [type] Type of output (export|global|runtime|umd|var).");
+	console.log("    -t, --output-type [type] Type of output (export|module|global|runtime|umd|var).");
 
 	process.exit(exitcode);
 }
@@ -203,6 +141,19 @@ var argv = getopt_long(null, "hl:t:o:V", ["help","whitelist=s","output-type=s", 
 			break;
 		case 't':
 		case 'output-type':
+			switch (optarg) {
+				case "export":
+					optarg = "module";
+					break;
+				case "module":
+				case "global":
+				case "runtime":
+				case "umd":
+				case "var":
+					break;
+				default:
+					help(EX.USAGE);
+			}
 			opts.t = optarg;
 			break;
 		case 'o':
@@ -221,7 +172,7 @@ var ex;
 var code;
 
 try {
-	code = buildExternalHelpers(opts.l, opts.t);
+	code = babel.buildExternalHelpers(opts.l, opts.t);
 } catch (ex) {
 	console.log(ex.message);
 	process.exit(EX.USAGE);

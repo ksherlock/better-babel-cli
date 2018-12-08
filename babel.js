@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
- * Copyright (c) 2016 Kelvin W Sherlock <ksherlock@gmail.com>
+ * Copyright (c) 2016-2018 Kelvin W Sherlock <ksherlock@gmail.com>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -24,7 +24,7 @@
  *
  */
 
-var babel = require('babel-core');
+var babel = require('@babel/core');
 var fs = require("fs");
 const EX = require('sysexits');
 
@@ -490,11 +490,19 @@ plugins.forEach(function(value,key,map){
 	} catch(ex) {}
 
 	try {
-		x = `babel-plugin-${key}`;
+		x = `@babel/plugin-${key}`;
 		y = require(x);
 		y =  y.__esModule ? y.default : y;
 		babelrc.plugins.push([y, value]);
 		return;
+	} catch(ex) {}
+	try {
+		/* minify not switched to @babel/, yet */
+		x = `babel-plugin-${key}`;
+		y = require(x);
+		y =  y.__esModule ? y.default : y;
+		babelrc.plugins.push([y, value]);
+		return;		
 	} catch(ex) {
 		console.warn(`Unable to load plugin ${key}`);
 		console.warn(ex.message);
