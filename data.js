@@ -154,33 +154,18 @@ exports.presets = new Map([
 	// https://github.com/facebook/react-native/tree/master/babel-preset
 	// https://github.com/facebook/metro/blob/master/babel.config.js
 	['react-native', [
-	'proposal-object-rest-spread',
-	'transform-destructuring',
-	'transform-flow-strip-types',
-	'syntax-dynamic-import',
+    'proposal-object-rest-spread',
+    'transform-async-to-generator',
+    'transform-destructuring',
+    'transform-flow-strip-types',
+    'syntax-dynamic-import',
 
-	'proposal-class-properties',
-	['transform-modules-commonjs', { strict: false, allowTopLevelThis: true }],
-	'transform-parameters',
-	'transform-react-jsx',
-	'transform-spread',
-
-	'syntax-async-functions',
-	'syntax-class-properties',
-	'transform-function-name',
-	'transform-arrow-functions',
-	'transform-block-scoping',
-	'transform-classes',
-	'transform-computed-properties',
-	'transform-shorthand-properties',
-	'transform-template-literals',
-	'transform-literals',
-	'transform-object-assign',
-	'transform-react-display-name',
-	'transform-react-jsx-source',
-	'transform-regenerator',
-	['transform-for-of', { loose: true }],
-	'transform-symbol-member', // part of --preset-react-native
+    // TODO: Check if plugins from the list below are actually in use
+    'proposal-class-properties',
+    'transform-modules-commonjs',
+    'transform-parameters',
+    'transform-react-jsx',
+    'transform-spread',
 	]],
 
 	['es2015', [
