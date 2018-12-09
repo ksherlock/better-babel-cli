@@ -281,10 +281,6 @@ exports.presets = new Map([
 	'syntax-dynamic-import',
 	'proposal-class-properties',
 	['proposal-decorators', {legacy: true}],
-
-
-	'transform-class-constructor-call',
-	'transform-export-extensions',
 	]],
 
 	['stage-0', [
@@ -296,9 +292,6 @@ exports.presets = new Map([
 	'syntax-dynamic-import',
 	'proposal-class-properties',
 	['proposal-decorators', {legacy: true}],
-
-	'transform-class-constructor-call',
-	'transform-export-extensions',
 
 	'proposal-do-expressions',
 	'proposal-function-bind',
