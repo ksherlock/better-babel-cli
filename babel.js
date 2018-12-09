@@ -423,12 +423,11 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 
 // should also check for conflicts, eg, react / vue / inferno.
 
-if (plugins.has('transform-class-properties')) {
-	move_back(plugins, 'transform-decorators');
-	move_back(plugins, 'transform-decorators-legacy');
+if (plugins.has('proposal-class-properties')) {
+	move_back(plugins, 'proposal-decorators');
 
 	// transform-class-properties should come before transform-es2015-classes
-	move_back(plugins, 'transform-es2015-classes');
+	move_back(plugins, 'transform-classes');
 }
 
 
@@ -439,7 +438,7 @@ plugins.forEach(function(value,key,map){
 
 	var config = data.config.get(key);
 	switch(key) {
-		case 'transform-es2015-modules-umd':
+		case 'transform-modules-umd':
 		case 'minify-mangle-names':
 			value = splatify(value, config);
 			map.set(key, value);
