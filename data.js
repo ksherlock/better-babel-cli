@@ -136,6 +136,66 @@ exports.plugins = new Set([
 	'transform-vue-jsx',
 ]);
 
+let babili = [
+	'minify-builtins',
+	'minify-constant-folding',
+	'minify-dead-code-elimination',
+	'minify-flip-comparisons',
+	'minify-guarded-expressions',
+	'minify-infinity',
+	'minify-mangle-names',
+	'minify-numeric-literals',
+	'minify-replace',
+	'minify-simplify',
+	'minify-type-constructors',
+	'transform-inline-consecutive-adds',
+	'transform-member-expression-literals',
+	'transform-merge-sibling-variables',
+	'transform-minify-booleans',
+	'transform-property-literals',
+	'transform-regexp-constructors',
+	'transform-remove-console',
+	'transform-remove-debugger',
+	'transform-remove-undefined',
+	'transform-simplify-comparison-operators',
+	'transform-undefined-to-void',
+	];
+
+let stage3 = [
+	'syntax-dynamic-import',
+	'syntax-import-meta',
+	'proposal-class-properties',
+	'proposal-json-strings',
+	'proposal-private-methods',
+	];
+
+let stage2 = [
+	...stage3,
+	['proposal-decorators', {legacy: false, decoratorsBeforeExport: false}],
+	'proposal-function-sent',
+	'proposal-export-namespace-from',
+	'proposal-numeric-separator',
+	'proposal-throw-expressions',
+	];
+
+let stage1 = [
+	...stage2,
+	'proposal-export-default-from',
+	'proposal-logical-assignment-operators',
+	'proposal-optional-chaining',
+	['proposal-pipeline-operator', {proposal: "minimal"}],
+	'proposal-nullish-coalescing-operator',
+	'proposal-do-expressions',
+	];
+
+
+let stage0 = [
+	...stage1,
+	'proposal-function-bind'
+	];
+
+
+
 exports.presets = new Map([
 	['react', [
 	'syntax-jsx',
@@ -187,6 +247,7 @@ exports.presets = new Map([
 	'transform-destructuring',
 	'transform-block-scoping',
 	'transform-typeof-symbol',
+	'transform-instanceof',
 	['transform-regenerator', { async: false, asyncGenerators: false }],
 	]],
 
@@ -210,6 +271,7 @@ exports.presets = new Map([
 	'transform-destructuring',
 	'transform-block-scoping',
 	'transform-typeof-symbol',
+	'transform-instanceof',
 	['transform-regenerator', { async: false, asyncGenerators: false }],
 	'external-helpers',
 	]],
@@ -244,6 +306,7 @@ exports.presets = new Map([
 	'transform-destructuring',
 	'transform-block-scoping',
 	'transform-typeof-symbol',
+	'transform-instanceof',
 	['transform-regenerator', { async: false, asyncGenerators: false }],
 
 	// es 2016
@@ -254,48 +317,13 @@ exports.presets = new Map([
 	]],
 
 
-	['stage-3', [
-	'transform-async-to-generator',
-	'transform-exponentiation-operator',
-	'proposal-async-generator-functions',
-	'proposal-object-rest-spread',
-	]],
+	['stage-3', stage3],
 
-	['stage-2', [
-	'transform-async-to-generator',
-	'transform-exponentiation-operator',
-	'proposal-async-generator-functions',
-	'proposal-object-rest-spread',
+	['stage-2', stage2],
 
-	'syntax-dynamic-import',
-	'proposal-class-properties',
-	['proposal-decorators', {legacy: true}],
-	]],
+	['stage-1', stage1],
 
-	['stage-1', [
-	'transform-async-to-generator',
-	'transform-exponentiation-operator',
-	'proposal-async-generator-functions',
-	'proposal-object-rest-spread',
-
-	'syntax-dynamic-import',
-	'proposal-class-properties',
-	['proposal-decorators', {legacy: true}],
-	]],
-
-	['stage-0', [
-	'transform-async-to-generator',
-	'transform-exponentiation-operator',
-	'proposal-async-generator-functions',
-	'proposal-object-rest-spread',
-
-	'syntax-dynamic-import',
-	'proposal-class-properties',
-	['proposal-decorators', {legacy: true}],
-
-	'proposal-do-expressions',
-	'proposal-function-bind',
-	]],
+	['stage-0', stage0],
 
 
 	['flow', [
@@ -306,29 +334,14 @@ exports.presets = new Map([
 	'transform-typescript',
 	]],
 
-	['babili',[
-	'minify-builtins',
-	'minify-constant-folding',
-	'minify-dead-code-elimination',
-	'minify-flip-comparisons',
-	'minify-guarded-expressions',
-	'minify-infinity',
-	'minify-mangle-names',
-	'minify-numeric-literals',
-	'minify-replace',
-	'minify-simplify',
-	'minify-type-constructors',
-	'transform-inline-consecutive-adds',
-	'transform-member-expression-literals',
-	'transform-merge-sibling-variables',
-	'transform-minify-booleans',
-	'transform-property-literals',
-	'transform-regexp-constructors',
-	'transform-remove-console',
-	'transform-remove-debugger',
-	'transform-remove-undefined',
-	'transform-simplify-comparison-operators',
-	'transform-undefined-to-void',
+	['babili',babili],
+	['minify',babili],
+
+
+	['preact', [
+	'syntax-jsx',
+	['transform-react-jsx', {pragma: 'h'}],
+	'transform-react-display-name',
 	]],
 
 	['vue', [
@@ -345,32 +358,34 @@ function _(o) {
 }
 
 exports.config = new Map([
-	['transform-async-to-module-method', {module: String, method: String}],
 	['transform-arrow-functions', {spec: Boolean}],
+	['transform-async-to-module-method', {module: String, method: String}],
 	['transform-block-scoping', {throwIfClosureRequired: Boolean, tdz: Boolean}],
 	['transform-classes', {loose: Boolean}],
 	['transform-computed-properties', {loose: Boolean}],
 	['transform-destructuring', {loose: Boolean}],
 	['transform-for-of', {loose: Boolean}],
+	['transform-inline-environment-variables', {include: Array, exclude: Array}],
 	['transform-modules-amd', {allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean}],
 	['transform-modules-commonjs', {allowTopLevelThis: Boolean, loose: Boolean, noInterop: Boolean, strict: Boolean, strictMode: Boolean}],
 	['transform-modules-systemjs', {loose: Boolean, systemGlobal: String}],
 	['transform-modules-umd', {globals: Object, exactGlobals: Boolean, allowTopLevelThis: Boolean, loose: Boolean, strict: Boolean, strictMode: Boolean }],
-	['transform-spread', {loose: Boolean}],
-	['transform-template-literals', {loose: Boolean, spec: Boolean}],
-	['transform-inline-environment-variables', {include: Array, exclude: Array}],
-	['proposal-object-rest-spread', {useBuiltIns: Boolean, loose: Boolean}],
 	['transform-react-jsx', {pragma: String, pragmaFrag: String, throwIfNamespace: Boolean, useBuiltIns: Boolean}],
 	['transform-regenerator', {asyncGenerators: Boolean, generators: Boolean, async: Boolean}],
 	['transform-remove-console', {exclude: Array}],
 	['transform-runtime', {absoluteRuntime: String, corejs: Boolean, helpers: Boolean, regenerator: Boolean, useESModules: Boolean, version: String}],
+	['transform-spread', {loose: Boolean}],
 	['transform-strict-mode', {strict: Boolean, strictMode: Boolean}],
+	['transform-template-literals', {loose: Boolean, spec: Boolean}],
 
 	['transform-flow-strip-types', {requireDirective: Boolean}],
 	['transform-typescript', {isTSX: Boolean, jsxPragma: String}],
 	['syntax-typescript', {isTSX: Boolean}],
 
 	['proposal-decorators', {decoratorsBeforeExport: Boolean, legacy: Boolean}],
+	['proposal-object-rest-spread', {useBuiltIns: Boolean, loose: Boolean}],
+	['proposal-pipeline-operator', {proposal: String}],
+	['proposal-nullish-coalescing-operator', {loose: Boolean}],
 
 	// babili
 	['minify-builtins', {tdz: Boolean}],
