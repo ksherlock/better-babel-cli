@@ -382,10 +382,14 @@ exports.config = new Map([
 	['transform-typescript', {isTSX: Boolean, jsxPragma: String}],
 	['syntax-typescript', {isTSX: Boolean}],
 
+	['proposal-class-properties', {loose: Boolean}],
 	['proposal-decorators', {decoratorsBeforeExport: Boolean, legacy: Boolean}],
-	['proposal-object-rest-spread', {useBuiltIns: Boolean, loose: Boolean}],
-	['proposal-pipeline-operator', {proposal: String}],
 	['proposal-nullish-coalescing-operator', {loose: Boolean}],
+	['proposal-object-rest-spread', {loose: Boolean, useBuiltIns: Boolean}],
+	['proposal-optional-chaining', {loose: Boolean}],
+	['proposal-pipeline-operator', {proposal: String}],
+	['proposal-private-methods', {loose: Boolean}],
+	['proposal-unicode-property-regex', {useUnicodeFlag: Boolean}],
 
 	// babili
 	['minify-builtins', {tdz: Boolean}],
