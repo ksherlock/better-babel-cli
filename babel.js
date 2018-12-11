@@ -245,6 +245,7 @@ function help(exitcode) {
 	console.log("    --[no-]babelrc           Enable/Disable .babelrc.");
 	console.log("    --[no-]comments          Enable/Disable comments.");
 	console.log("    --[no-]compact           Enable/Disable compaction.");
+	console.log("    --builtins               Enable builtins.");
 	console.log("    --loose                  Enable loose mode.");
 	console.log("    --spec                   Enable spec mode.");
 	console.log("    --tdz                    Enable tdz mode.");
@@ -266,6 +267,7 @@ var plugins = new Map();
 var verbose = false;
 var outfile = null;
 var ex;
+var builtins = false;
 var loose = false;
 var spec = false;
 var tdz = false;
@@ -276,7 +278,7 @@ var babelrc = {
 };
 
 var go = [ "help", "help-plugins", "help-presets", "help-config",
-	"verbose!", "version", "babelrc!", "comments!", "compact!", "loose!", "spec!", "tdz!"];
+	"verbose!", "version", "babelrc!", "comments!", "compact!", "builtins!", "loose!", "spec!", "tdz!"];
 
 // add pre-sets
 data.presets.forEach(function(v, k){
@@ -352,6 +354,10 @@ var argv = getopt_long(process.argv.slice(2), "hVvo:", go,
 
 			case 'compact':
 				babelrc.compact = optarg;
+				break;
+
+			case 'builtins':
+				builtins = optarg;
 				break;
 
 			case 'loose':
@@ -453,6 +459,14 @@ plugins.forEach(function(value,key,map){
 	}
 
 });
+
+
+if (builtins) {
+	plugins.forEach(function(value, key, map){
+		var x = data.config.get(key);
+		if (x && x.useBuiltIns === Boolean) value.useBuiltIns = true;
+	});
+}
 
 if (loose) {
 	plugins.forEach(function(value, key, map){
